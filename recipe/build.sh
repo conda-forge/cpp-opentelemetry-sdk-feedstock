@@ -14,6 +14,7 @@ main() {
     pushd build-cpp
 
     local PROTOC_EXECUTABLE=$PREFIX/bin/protoc
+    local CMAKE_FIND_ROOT_PATH=""
     if [[ "$CONDA_BUILD_CROSS_COMPILATION" == 1 ]]; then
         PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc
     fi
