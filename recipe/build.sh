@@ -13,7 +13,11 @@ main() {
     mkdir -p build-cpp
     pushd build-cpp
 
-    local PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc
+    local PROTOC_EXECUTABLE=$PREFIX/bin/protoc
+    if [[ "$CONDA_BUILD_CROSS_COMPILATION" == 1 ]]; then
+        PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc
+    fi
+
     cmake ${CMAKE_ARGS} ..  \
           -GNinja \
           -DCMAKE_BUILD_TYPE=Release \
@@ -24,6 +28,7 @@ main() {
           -DWITH_API_ONLY=OFF \
           -DWITH_EXAMPLES=OFF \
           -DWITH_OTLP=ON \
+          -DWITH_OTLP_HTTP=ON \
           -DProtobuf_PROTOC_EXECUTABLE=$PROTOC_EXECUTABLE \
           -DWITH_OTLP_GRPC=ON
 
