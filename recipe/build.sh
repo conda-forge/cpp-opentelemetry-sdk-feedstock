@@ -28,9 +28,10 @@ main() {
           -DWITH_API_ONLY=OFF \
           -DWITH_EXAMPLES=OFF \
           -DWITH_OTLP=ON \
+          -DWITH_OTLP_GRPC=ON \
           -DWITH_OTLP_HTTP=ON \
           -DProtobuf_PROTOC_EXECUTABLE=$PROTOC_EXECUTABLE \
-          -DWITH_OTLP_GRPC=ON
+          -DWITH_ZIPKIN=ON
 
     ninja install
     popd
