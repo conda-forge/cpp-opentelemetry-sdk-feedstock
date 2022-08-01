@@ -1,6 +1,6 @@
 # code: language: jinja-yaml
 {% set name = "cpp-opentelemetry-sdk" %}
-{% set version = "1.4.1" %}
+{% set version = "1.5.0" %}
 
 package:
   name: {{ name|lower }}
@@ -8,13 +8,13 @@ package:
 
 source:
   - url: https://github.com/open-telemetry/opentelemetry-cpp/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 301b1ab74a664723560f46c29f228360aff1e2d63e930b963755ea077ae67524
+    sha256: 0d3fa768c48ed0df99dd061527ce26f2e4c42f8db7a5ba036031da60e52f4cc8
     patches:
       - cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
       - include_ctime.patch
 
 build:
-  number: 4
+  number: 0
   always_include_files:
     # Must overwrite the ones installed by cpp-opentelemetry-api
     - lib/cmake/opentelemetry-cpp/  # [unix]
