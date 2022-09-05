@@ -9,7 +9,7 @@ curl:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '13'
+- '14'
 grpc_cpp:
 - '1.47'
 macos_machine:
