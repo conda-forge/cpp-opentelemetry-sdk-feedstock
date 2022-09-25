@@ -8,11 +8,8 @@ jobs:
     vmImage: windows-2019
   strategy:
     matrix:
-      win_64_grpc_cpp1.46:
-        CONFIG: win_64_grpc_cpp1.46
-        UPLOAD_PACKAGES: 'True'
-      win_64_grpc_cpp1.47:
-        CONFIG: win_64_grpc_cpp1.47
+      win_64_:
+        CONFIG: win_64_
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables:
