@@ -11,14 +11,9 @@ cxx_compiler:
 cxx_compiler_version:
 - '14'
 grpc_cpp:
-- '1.47'
+- '1.49'
 macos_machine:
 - arm64-apple-darwin20.0.0
-pin_run_as_build:
-  curl:
-    max_pin: x
-  zlib:
-    max_pin: x.x
 target_platform:
 - osx-arm64
 zlib:

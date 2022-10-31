@@ -7,12 +7,7 @@ curl:
 cxx_compiler:
 - vs2019
 grpc_cpp:
-- '1.47'
-pin_run_as_build:
-  curl:
-    max_pin: x
-  zlib:
-    max_pin: x.x
+- '1.49'
 target_platform:
 - win-64
 zlib:
