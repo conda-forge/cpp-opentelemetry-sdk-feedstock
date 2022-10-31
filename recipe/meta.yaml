@@ -30,7 +30,7 @@ requirements:
     # For cross-compiling
     - curl                    # [build_platform != target_platform]
     - libgrpc                 # [build_platform != target_platform]
-    - libprotobuf >=3.18      # [build_platform != target_platform]
+    - libprotobuf             # [build_platform != target_platform]
     - nlohmann_json >=3.10.5  # [build_platform != target_platform]
     - zlib                    # [build_platform != target_platform]
     - prometheus-cpp          # [build_platform != target_platform] 
@@ -40,7 +40,7 @@ requirements:
     - cpp-opentelemetry-api ={{ version }}
     - curl
     - libgrpc
-    - libprotobuf >=3.18
+    - libprotobuf
     - nlohmann_json >=3.10.5
     - zlib
     - prometheus-cpp
