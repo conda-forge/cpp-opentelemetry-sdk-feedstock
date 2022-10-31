@@ -6,8 +6,10 @@ curl:
 - '7'
 cxx_compiler:
 - vs2019
-grpc_cpp:
+libgrpc:
 - '1.49'
+libprotobuf:
+- '3.21'
 target_platform:
 - win-64
 zlib:
