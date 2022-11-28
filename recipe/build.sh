@@ -27,6 +27,7 @@ main() {
           -DCMAKE_INSTALL_PREFIX=$PREFIX \
           -DBUILD_TESTING=OFF \
           -DWITH_API_ONLY=OFF \
+          -DWITH_BENCHMARK=OFF \
           -DWITH_EXAMPLES=OFF \
           -DWITH_LOGS_PREVIEW=ON \
           -DWITH_OTLP=ON \

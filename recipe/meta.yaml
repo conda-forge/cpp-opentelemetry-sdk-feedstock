@@ -11,7 +11,6 @@ source:
     sha256: 8eddcbeae191a58d2d2a19305ed0a60776e43999eb29b64536566ba24506a6c1
     patches:
       - cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
-      - include_ctime.patch
 
 build:
   number: 0
