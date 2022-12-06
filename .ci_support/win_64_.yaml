@@ -7,7 +7,7 @@ curl:
 cxx_compiler:
 - vs2019
 libgrpc:
-- '1.49'
+- '1.51'
 libprotobuf:
 - '3.21'
 target_platform:
