@@ -26,6 +26,7 @@ main() {
           -DCMAKE_PREFIX_PATH=$PREFIX \
           -DCMAKE_INSTALL_PREFIX=$PREFIX \
           -DBUILD_TESTING=OFF \
+          -DOPENTELEMETRY_INSTALL=ON \
           -DWITH_API_ONLY=OFF \
           -DWITH_BENCHMARK=OFF \
           -DWITH_EXAMPLES=OFF \
