@@ -23,6 +23,7 @@ main() {
           -GNinja \
           -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+          -DCMAKE_CXX_STANDARD=17 \
           -DCMAKE_PREFIX_PATH=$PREFIX \
           -DCMAKE_INSTALL_PREFIX=$PREFIX \
           -DBUILD_TESTING=OFF \
