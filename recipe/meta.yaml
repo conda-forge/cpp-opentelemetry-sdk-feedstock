@@ -18,6 +18,8 @@ build:
     # Must overwrite the ones installed by cpp-opentelemetry-api
     - lib/cmake/opentelemetry-cpp/  # [unix]
     - Library/lib/cmake/opentelemetry-cpp/  # [win]
+  run_exports:
+    - cpp-opentelemetry-sdk
 
 requirements:
   build:
@@ -48,8 +50,6 @@ requirements:
     - curl
     - nlohmann_json
     - prometheus-cpp
-  run_exports:
-    - cpp-opentelemetry-sdk
 
 test:
   commands:
