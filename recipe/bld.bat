@@ -12,6 +12,7 @@ cd build-cpp
 cmake .. ^
       -GNinja ^
       -DCMAKE_BUILD_TYPE=Release ^
+      -DBUILD_SHARED_LIBS=ON ^
       -DCMAKE_CXX_STANDARD=17 ^
       -DCMAKE_PREFIX_PATH=%CONDA_PREFIX% ^
       -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^

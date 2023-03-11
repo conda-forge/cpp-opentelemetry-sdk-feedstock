@@ -22,6 +22,7 @@ main() {
     cmake ${CMAKE_ARGS} ..  \
           -GNinja \
           -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_SHARED_LIBS=ON \
           -DCMAKE_CXX_FLAGS="$CXXFLAGS" \
           -DCMAKE_CXX_STANDARD=17 \
           -DCMAKE_PREFIX_PATH=$PREFIX \

@@ -48,6 +48,8 @@ requirements:
     - curl
     - nlohmann_json
     - prometheus-cpp
+  run_exports:
+    - cpp-opentelemetry-sdk
 
 test:
   commands:
@@ -56,11 +58,17 @@ test:
     - test -f $PREFIX/lib/cmake/opentelemetry-cpp/opentelemetry-cpp-config.cmake  # [unix]
     - test -f $PREFIX/lib/libopentelemetry_common.a  # [unix]
     - test -f $PREFIX/lib/libopentelemetry_exporter_otlp_grpc.a  # [unix]
+    - test -f $PREFIX/lib/libopentelemetry_common.so  # [unix]
+    - test -f $PREFIX/lib/libopentelemetry_exporter_otlp_grpc.so  # [unix]
+    - test -f $PREFIX/lib/libopentelemetry_common.dylib  # [osx]
+    - test -f $PREFIX/lib/libopentelemetry_exporter_otlp_grpc.dylib  # [osx]
     - if not exist %LIBRARY_INC%\opentelemetry\sdk exit 1  # [win]
     - if not exist %LIBRARY_LIB%\cmake\opentelemetry-cpp exit 1  # [win]
     - if not exist %LIBRARY_LIB%\cmake\opentelemetry-cpp\opentelemetry-cpp-config.cmake exit 1  # [win]
     - if not exist %LIBRARY_LIB%\opentelemetry_common.lib exit 1  # [win]
     - if not exist %LIBRARY_LIB%\opentelemetry_exporter_otlp_grpc.lib exit 1  # [win]
+    - if not exist %LIBRARY_LIB%\opentelemetry_common.dll exit 1  # [win]
+    - if not exist %LIBRARY_LIB%\opentelemetry_exporter_otlp_grpc.dll exit 1  # [win]
 
 about:
   home: https://github.com/open-telemetry/opentelemetry-cpp
