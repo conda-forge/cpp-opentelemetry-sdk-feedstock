@@ -9,6 +9,8 @@ REM Stop CMake from trying to git clone the Protobuf definitions.
 mkdir .\third_party\opentelemetry-proto\.git
 
 cd build-cpp
+
+echo "Building static libraries"
 cmake .. ^
       -GNinja ^
       -DCMAKE_BUILD_TYPE=Release ^
@@ -30,4 +32,9 @@ cmake .. ^
       -DWITH_PROMETHEUS=ON
 
 cmake --build . --config Release --target install
+
+echo "Building shared libraries"
+cmake .. -DBUILD_SHARED_LIBS=ON
+cmake --build . --config Release --target install
+
 if errorlevel 1 exit 1
