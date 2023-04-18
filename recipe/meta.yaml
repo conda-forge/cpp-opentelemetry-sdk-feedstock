@@ -11,6 +11,7 @@ source:
     sha256: b23d3c80d2e0012734ea343d2be69b2a7139ec5545453c503b13e629eb8fbe05
     patches:
       - cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
+      - macos_linker_dependencies.patch  # [osx]
 
 build:
   number: 1
