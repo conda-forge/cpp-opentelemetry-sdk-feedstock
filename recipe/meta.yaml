@@ -10,6 +10,7 @@ source:
     sha256: 0fdbefbdc2c154634728097e26de52a8210ed95cb032beb5f35da0a493cd5066
     patches:
       - patches/0001-cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
+      - patches/0002-add-missing-shared-library-dependencies.patch
 
 build:
   number: 1
