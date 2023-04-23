@@ -1,9 +1,8 @@
 # code: language: jinja-yaml
-{% set name = "cpp-opentelemetry-sdk" %}
 {% set version = "1.9.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: cpp-opentelemetry-sdk
   version: {{ version }}
 
 source:
