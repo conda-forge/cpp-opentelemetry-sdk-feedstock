@@ -72,7 +72,7 @@ test:
         "exporter_otlp_grpc_log", "exporter_otlp_grpc_metrics", "exporter_otlp_http",
         "exporter_otlp_http_client", "exporter_otlp_http_log", "exporter_otlp_http_metric",
         "exporter_prometheus", "exporter_zipkin_trace", "http_client_curl", "logs", "metrics",
-        "otlp_recordable", "proto", "resources", "trace", "version"
+        "otlp_recordable", "resources", "trace", "version"
     ] %}
     {% for each_lib in libs %}
     # shared
@@ -83,6 +83,19 @@ test:
 
     # absence of static libraries
     - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                # [unix]
+    {% endfor %}
+
+    # libopentelemetry_proto is always static even for BUILD_SHARED_LIBS=ON
+    {% set libs_always_static = ["proto"] %}
+    {% for each_lib in libs_always_static %}
+    # static libraries
+    - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                  # [unix]
+    - if not exist %LIBRARY_LIB%\opentelemetry_{{ each_lib }}.lib exit 1     # [win]
+
+    # absence of shared libraries
+    - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.so               # [linux]
+    - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.dylib            # [osx]
+    - if exist %LIBRARY_BIN%\opentelemetry_{{ each_lib }}.dll exit 1         # [win]
     {% endfor %}
 
     # cmake
