@@ -50,16 +50,42 @@ requirements:
 
 test:
   commands:
-    - test -d $PREFIX/include/opentelemetry/sdk/  # [unix]
-    - test -d $PREFIX/lib/cmake/opentelemetry-cpp/  # [unix]
-    - test -f $PREFIX/lib/cmake/opentelemetry-cpp/opentelemetry-cpp-config.cmake  # [unix]
-    - test -f $PREFIX/lib/libopentelemetry_common.a  # [unix]
-    - test -f $PREFIX/lib/libopentelemetry_exporter_otlp_grpc.a  # [unix]
-    - if not exist %LIBRARY_INC%\opentelemetry\sdk exit 1  # [win]
-    - if not exist %LIBRARY_LIB%\cmake\opentelemetry-cpp exit 1  # [win]
+    # headers; not exhaustive, just a subset for testing
+    {% set headers = [
+        "exporters/ostream/common_utils.h", "exporters/otlp/otlp_http.h",
+        "exporters/prometheus/collector.h", "ext/http/common/url_parser.h",
+        "proto/common/v1/common.pb.h", "sdk/common/atomic_shared_ptr.h",
+        "sdk/logs/logger.h", "sdk/metrics/data/point_data.h", "sdk/metrics/meter.h",
+        "sdk/resource/resource.h", "sdk/trace/sampler.h", "sdk/version/version.h"
+    ] %}
+    {% for each_header in headers %}
+    - test -f $PREFIX/include/opentelemetry/{{ each_header }} || (echo "{{ each_header }} not found" && exit 1)  # [unix]
+    - if not exist %LIBRARY_INC%\opentelemetry\{{ "\\".join(each_header.split("/")) }} exit 1                    # [win]
+    {% endfor %}
+
+    # libraries
+    {% set libs = [
+        "common", "exporter_in_memory", "exporter_ostream_logs", "exporter_ostream_metrics",
+        "exporter_ostream_span", "exporter_otlp_grpc", "exporter_otlp_grpc_client",
+        "exporter_otlp_grpc_log", "exporter_otlp_grpc_metrics", "exporter_otlp_http",
+        "exporter_otlp_http_client", "exporter_otlp_http_log", "exporter_otlp_http_metric",
+        "exporter_prometheus", "exporter_zipkin_trace", "http_client_curl", "logs", "metrics",
+        "otlp_recordable", "proto", "resources", "trace", "version"
+    ] %}
+    {% for each_lib in libs %}
+    # shared
+    - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.so                 # [linux]
+    - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.dylib              # [osx]
+    - if not exist %LIBRARY_BIN%\opentelemetry_{{ each_lib }}.dll exit 1     # [win]
+    - if not exist %LIBRARY_LIB%\opentelemetry_{{ each_lib }}.lib exit 1     # [win]
+
+    # absence of static libraries
+    - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                # [unix]
+    {% endfor %}
+
+    # cmake
+    - test -f ${PREFIX}/lib/cmake/opentelemetry-cpp/opentelemetry-cpp-config.cmake              # [unix]
     - if not exist %LIBRARY_LIB%\cmake\opentelemetry-cpp\opentelemetry-cpp-config.cmake exit 1  # [win]
-    - if not exist %LIBRARY_LIB%\opentelemetry_common.lib exit 1  # [win]
-    - if not exist %LIBRARY_LIB%\opentelemetry_exporter_otlp_grpc.lib exit 1  # [win]
 
 about:
   home: https://github.com/open-telemetry/opentelemetry-cpp
