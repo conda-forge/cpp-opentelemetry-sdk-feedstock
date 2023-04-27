@@ -39,15 +39,20 @@ requirements:
     # -api and -sdk packages of different versions are not necessarily
     # compatible.
     - cpp-opentelemetry-api ={{ version }}
-    - curl
+    - libcurl
     - libgrpc
     - libprotobuf
     - nlohmann_json >=3.10.5
     - zlib
     - prometheus-cpp
+    # because the windows builds of libgrpc is static, we need _its_
+    # (not yet present) host dependencies to be able to link correctly
+    - c-ares         # [win]
+    - libabseil      # [win]
+    - openssl        # [win]
+    - re2            # [win]
   run:
     - cpp-opentelemetry-api ={{ version }}
-    - curl
     - nlohmann_json
     - prometheus-cpp
 
