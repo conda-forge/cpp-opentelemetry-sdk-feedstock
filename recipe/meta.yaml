@@ -63,9 +63,11 @@ test:
         "exporters/ostream/common_utils.h", "exporters/otlp/otlp_http.h",
         "exporters/prometheus/collector.h", "ext/http/common/url_parser.h",
         "proto/common/v1/common.pb.h", "sdk/common/atomic_shared_ptr.h",
-        "sdk/logs/logger.h", "sdk/metrics/data/point_data.h", "sdk/metrics/meter.h",
+        "sdk/metrics/data/point_data.h", "sdk/metrics/meter.h",
         "sdk/resource/resource.h", "sdk/trace/sampler.h", "sdk/version/version.h"
     ] %}
+    # not available on windows
+    {% set headers = headers + ["sdk/logs/logger.h"] %}  # [not win]
     {% for each_header in headers %}
     - test -f $PREFIX/include/opentelemetry/{{ each_header }} || (echo "{{ each_header }} not found" && exit 1)  # [unix]
     - if not exist %LIBRARY_INC%\opentelemetry\{{ "\\".join(each_header.split("/")) }} exit 1                    # [win]
@@ -73,13 +75,15 @@ test:
 
     # libraries
     {% set libs = [
-        "common", "exporter_in_memory", "exporter_ostream_logs", "exporter_ostream_metrics",
+        "common", "exporter_in_memory", "exporter_ostream_metrics",
         "exporter_ostream_span", "exporter_otlp_grpc", "exporter_otlp_grpc_client",
         "exporter_otlp_grpc_log", "exporter_otlp_grpc_metrics", "exporter_otlp_http",
-        "exporter_otlp_http_client", "exporter_otlp_http_log", "exporter_otlp_http_metric",
-        "exporter_prometheus", "exporter_zipkin_trace", "http_client_curl", "logs", "metrics",
-        "otlp_recordable", "resources", "trace", "version"
+        "exporter_otlp_http_client", "exporter_otlp_http_metric", "exporter_prometheus",
+        "exporter_zipkin_trace", "http_client_curl", "metrics", "otlp_recordable",
+        "resources", "trace", "version"
     ] %}
+    # not available on windows
+    {% set libs = libs + ["exporter_ostream_logs", "exporter_otlp_http_log", "logs"] %}  # [not win]
     {% for each_lib in libs %}
     # shared
     - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.so                 # [linux]
