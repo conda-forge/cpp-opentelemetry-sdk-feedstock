@@ -1,13 +1,14 @@
-From bf94347ea81c547eb8f5d7b2a53eccc75b4aef10 Mon Sep 17 00:00:00 2001
+From 2d644c44e151a9d52ddf8b6c4c8684133e349390 Mon Sep 17 00:00:00 2001
 From: Will Jones <willjones127@gmail.com>
 Date: Tue, 18 Apr 2023 11:52:23 -0700
 Subject: [PATCH 2/2] add missing shared library dependencies
 
+Co-Authored-By: H. Vetinari <h.vetinari@gmx.com>
 ---
  exporters/ostream/CMakeLists.txt        |  2 +-
- exporters/otlp/CMakeLists.txt           | 10 ++++++----
+ exporters/otlp/CMakeLists.txt           | 13 ++++++++-----
  ext/src/http/client/curl/CMakeLists.txt |  4 ++--
- 3 files changed, 9 insertions(+), 7 deletions(-)
+ 3 files changed, 11 insertions(+), 8 deletions(-)
 
 diff --git a/exporters/ostream/CMakeLists.txt b/exporters/ostream/CMakeLists.txt
 index a674de84..5518adf7 100644
@@ -23,7 +24,7 @@ index a674de84..5518adf7 100644
  if(OPENTELEMETRY_INSTALL)
    install(
 diff --git a/exporters/otlp/CMakeLists.txt b/exporters/otlp/CMakeLists.txt
-index 585e2539..970de439 100644
+index 585e2539..b9bb07da 100644
 --- a/exporters/otlp/CMakeLists.txt
 +++ b/exporters/otlp/CMakeLists.txt
 @@ -33,7 +33,7 @@ if(WITH_OTLP_GRPC)
@@ -45,7 +46,17 @@ index 585e2539..970de439 100644
  
    list(APPEND OPENTELEMETRY_OTLP_TARGETS opentelemetry_exporter_otlp_grpc)
  
-@@ -90,7 +91,8 @@ if(WITH_OTLP_GRPC)
+@@ -76,7 +77,8 @@ if(WITH_OTLP_GRPC)
+   target_link_libraries(
+     opentelemetry_exporter_otlp_grpc_log
+     PUBLIC opentelemetry_otlp_recordable
+-           opentelemetry_exporter_otlp_grpc_client)
++           opentelemetry_exporter_otlp_grpc_client
++    PRIVATE gRPC::grpc++)
+ 
+   list(APPEND OPENTELEMETRY_OTLP_TARGETS opentelemetry_exporter_otlp_grpc_log)
+ 
+@@ -90,7 +92,8 @@ if(WITH_OTLP_GRPC)
    target_link_libraries(
      opentelemetry_exporter_otlp_grpc_metrics
      PUBLIC opentelemetry_otlp_recordable
@@ -55,7 +66,7 @@ index 585e2539..970de439 100644
  
    list(APPEND OPENTELEMETRY_OTLP_TARGETS
         opentelemetry_exporter_otlp_grpc_metrics)
-@@ -103,7 +105,7 @@ if(WITH_OTLP_HTTP)
+@@ -103,7 +106,7 @@ if(WITH_OTLP_HTTP)
    target_link_libraries(
      opentelemetry_exporter_otlp_http_client
      PUBLIC opentelemetry_sdk opentelemetry_proto opentelemetry_http_client_curl
