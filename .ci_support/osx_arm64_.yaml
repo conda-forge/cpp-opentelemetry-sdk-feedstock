@@ -4,12 +4,12 @@ channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
-curl:
-- '8'
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '15'
+libcurl:
+- '8'
 libgrpc:
 - '1.54'
 libprotobuf:

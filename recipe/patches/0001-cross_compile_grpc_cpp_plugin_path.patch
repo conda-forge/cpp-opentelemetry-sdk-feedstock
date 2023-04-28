@@ -1,0 +1,37 @@
+From 9b21cf5d403d926f555707e9d15af2f0a6262e8d Mon Sep 17 00:00:00 2001
+From: David Li <li.davidm96@gmail.com>
+Date: Tue, 14 Dec 2021 15:47:51 -0500
+Subject: [PATCH 1/2] cross_compile_grpc_cpp_plugin_path
+
+---
+ cmake/opentelemetry-proto.cmake | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
+
+diff --git a/cmake/opentelemetry-proto.cmake b/cmake/opentelemetry-proto.cmake
+index 1aa1ba03..d9b08dc5 100644
+--- a/cmake/opentelemetry-proto.cmake
++++ b/cmake/opentelemetry-proto.cmake
+@@ -156,16 +156,13 @@ foreach(IMPORT_DIR ${PROTOBUF_IMPORT_DIRS})
+ endforeach()
+ 
+ if(WITH_OTLP_GRPC)
+-  if(CMAKE_CROSSCOMPILING)
+-    find_program(gRPC_CPP_PLUGIN_EXECUTABLE grpc_cpp_plugin)
+-  else()
+-    if(TARGET gRPC::grpc_cpp_plugin)
+-      project_build_tools_get_imported_location(gRPC_CPP_PLUGIN_EXECUTABLE
+-                                                gRPC::grpc_cpp_plugin)
+-    else()
+-      find_program(gRPC_CPP_PLUGIN_EXECUTABLE grpc_cpp_plugin)
+-    endif()
+-  endif()
++  # When cross-compiling, look for the gRPC plugin
++  # next to the Protobuf compiler
++  get_filename_component(PROTOC_PATH ${PROTOBUF_PROTOC_EXECUTABLE} DIRECTORY)
++  find_program(gRPC_CPP_PLUGIN_EXECUTABLE grpc_cpp_plugin
++               HINTS ${PROTOC_PATH}
++               NO_CMAKE_PATH
++               NO_CMAKE_ENVIRONMENT_PATH)
+   message(STATUS "gRPC_CPP_PLUGIN_EXECUTABLE=${gRPC_CPP_PLUGIN_EXECUTABLE}")
+ endif()
+ 
