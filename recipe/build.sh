@@ -1,8 +1,5 @@
 #!/bin/bash
-
 set -ex
-
-export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_CXX_STANDARD=11"
 
 main() {
     # Release tarballs do not contain the required Protobuf definitions.
