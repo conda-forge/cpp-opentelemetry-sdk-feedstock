@@ -13,15 +13,15 @@ source:
       - patches/0002-add-missing-shared-library-dependencies.patch
 
 build:
-  number: 1
+  number: 2
 
 outputs:
-  - name: cpp-opentelemetry-sdk
+  - name: libopentelemetry-cpp
     script: build-lib.sh   # [unix]
     script: build-lib.bat  # [win]
     build:
       run_exports:
-        - {{ pin_subpackage("cpp-opentelemetry-sdk", max_pin="x.x") }}
+        - {{ pin_subpackage("libopentelemetry-cpp", max_pin="x.x") }}
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -56,6 +56,9 @@ outputs:
         - cpp-opentelemetry-api ={{ version }}
         - nlohmann_json
         - prometheus-cpp
+      run_constrained:
+        # make sure we don't co-install with old version of old package name
+        - cpp-opentelemetry-sdk ={{ version }}
 
     test:
       commands:
@@ -113,6 +116,26 @@ outputs:
         - test -f ${PREFIX}/lib/cmake/opentelemetry-cpp/opentelemetry-cpp-config.cmake              # [unix]
         - if not exist %LIBRARY_LIB%\cmake\opentelemetry-cpp\opentelemetry-cpp-config.cmake exit 1  # [win]
 
+  # compatibility output for old naming convention
+  - name: cpp-opentelemetry-sdk
+    build:
+      run_exports:
+        - {{ pin_subpackage("libopentelemetry-cpp", max_pin="x.x") }}
+    requirements:
+      host:
+        # match host deps to avoid hash collisions between wrappers
+        - libcurl
+        - libgrpc
+        - libprotobuf
+        - nlohmann_json
+        - zlib
+        - prometheus-cpp
+        - {{ pin_subpackage("libopentelemetry-cpp", exact=True) }}
+      run:
+        - {{ pin_subpackage("libopentelemetry-cpp", exact=True) }}
+    test:
+      commands:
+        - echo "tested in other output"
 about:
   home: https://github.com/open-telemetry/opentelemetry-cpp
   license: Apache-2.0
