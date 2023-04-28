@@ -16,10 +16,6 @@ build:
   number: 1
   run_exports:
     - {{ pin_subpackage("cpp-opentelemetry-sdk", max_pin="x.x") }}
-  always_include_files:
-    # Must overwrite the ones installed by cpp-opentelemetry-api
-    - lib/cmake/opentelemetry-cpp/  # [unix]
-    - Library/lib/cmake/opentelemetry-cpp/  # [win]
 
 requirements:
   build:
