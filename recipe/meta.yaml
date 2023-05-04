@@ -47,6 +47,33 @@ requirements:
     - re2            # [win]
 
 outputs:
+  - name: libopentelemetry-cpp-headers
+    script: install.sh   # [unix]
+    script: install.bat  # [win]
+    requirements:
+      build:
+        - cmake
+    test:
+      commands:
+        # headers
+        - test -d $PREFIX/include/opentelemetry                  # [unix]
+        - if not exist %LIBRARY_INC%\opentelemetry exit 1        # [win]
+
+        # absence of CMake metadata (reserved for libopentelemetry-cpp)
+        - test ! -d $PREFIX/lib/cmake/opentelemetry-cpp          # [unix]
+        - if exist %LIBRARY_LIB%\cmake\opentelemetry-cpp exit 1  # [win]
+
+  # compatibility output for old naming convention
+  - name: cpp-opentelemetry-api
+    requirements:
+      host:
+        - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
+      run:
+        - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
+    test:
+      commands:
+        - echo "tested in other output"
+
   - name: libopentelemetry-cpp
     script: install.sh   # [unix]
     script: install.bat  # [win]
@@ -57,9 +84,7 @@ outputs:
       build:
         - cmake
       host:
-        # -api and -sdk packages of different versions are not necessarily
-        # compatible.
-        - cpp-opentelemetry-api ={{ version }}
+        - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
         - libcurl
         - libgrpc
         - libprotobuf
@@ -73,7 +98,7 @@ outputs:
         - openssl        # [win]
         - re2            # [win]
       run:
-        - cpp-opentelemetry-api ={{ version }}
+        - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
         - nlohmann_json
         - prometheus-cpp
       run_constrained:
