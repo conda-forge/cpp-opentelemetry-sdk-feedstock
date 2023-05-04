@@ -1,8 +1,21 @@
 # code: language: jinja-yaml
 {% set version = "1.9.0" %}
 
+{% set libs = [
+    "common", "exporter_in_memory", "exporter_ostream_metrics",
+    "exporter_ostream_span", "exporter_otlp_grpc", "exporter_otlp_grpc_client",
+    "exporter_otlp_grpc_log", "exporter_otlp_grpc_metrics", "exporter_otlp_http",
+    "exporter_otlp_http_client", "exporter_otlp_http_metric", "exporter_prometheus",
+    "exporter_zipkin_trace", "http_client_curl", "metrics", "otlp_recordable",
+    "resources", "trace", "version"
+] %}
+# not available on windows
+{% set libs = libs + ["exporter_ostream_logs", "exporter_otlp_http_log", "logs"] %}  # [not win]
+# libopentelemetry_proto is always static even for BUILD_SHARED_LIBS=ON
+{% set libs_always_static = ["proto"] %}
+
 package:
-  name: cpp-opentelemetry-sdk
+  name: opentelemetry-sdk
   version: {{ version }}
 
 source:
@@ -13,13 +26,7 @@ source:
       - patches/0002-add-missing-shared-library-dependencies.patch
 
 build:
-  number: 1
-  run_exports:
-    - {{ pin_subpackage("cpp-opentelemetry-sdk", max_pin="x.x") }}
-  always_include_files:
-    # Must overwrite the ones installed by cpp-opentelemetry-api
-    - lib/cmake/opentelemetry-cpp/  # [unix]
-    - Library/lib/cmake/opentelemetry-cpp/  # [win]
+  number: 2
 
 requirements:
   build:
@@ -34,7 +41,7 @@ requirements:
     - libprotobuf             # [build_platform != target_platform]
     - nlohmann_json >=3.10.5  # [build_platform != target_platform]
     - zlib                    # [build_platform != target_platform]
-    - prometheus-cpp          # [build_platform != target_platform] 
+    - prometheus-cpp          # [build_platform != target_platform]
   host:
     # -api and -sdk packages of different versions are not necessarily
     # compatible.
@@ -51,67 +58,139 @@ requirements:
     - libabseil      # [win]
     - openssl        # [win]
     - re2            # [win]
-  run:
-    - cpp-opentelemetry-api ={{ version }}
-    - nlohmann_json
-    - prometheus-cpp
 
-test:
-  commands:
-    # headers; not exhaustive, just a subset for testing
-    {% set headers = [
-        "exporters/ostream/common_utils.h", "exporters/otlp/otlp_http.h",
-        "exporters/prometheus/collector.h", "ext/http/common/url_parser.h",
-        "proto/common/v1/common.pb.h", "sdk/common/atomic_shared_ptr.h",
-        "sdk/metrics/data/point_data.h", "sdk/metrics/meter.h",
-        "sdk/resource/resource.h", "sdk/trace/sampler.h", "sdk/version/version.h"
-    ] %}
-    # not available on windows
-    {% set headers = headers + ["sdk/logs/logger.h"] %}  # [not win]
-    {% for each_header in headers %}
-    - test -f $PREFIX/include/opentelemetry/{{ each_header }} || (echo "{{ each_header }} not found" && exit 1)  # [unix]
-    - if not exist %LIBRARY_INC%\opentelemetry\{{ "\\".join(each_header.split("/")) }} exit 1                    # [win]
-    {% endfor %}
+outputs:
+  - name: libopentelemetry-cpp-headers
+    script: install.sh   # [unix]
+    script: install.bat  # [win]
+    requirements:
+      build:
+        - cmake
+    test:
+      commands:
+        # headers
+        - test -d $PREFIX/include/opentelemetry                  # [unix]
+        - if not exist %LIBRARY_INC%\opentelemetry exit 1        # [win]
 
-    # libraries
-    {% set libs = [
-        "common", "exporter_in_memory", "exporter_ostream_metrics",
-        "exporter_ostream_span", "exporter_otlp_grpc", "exporter_otlp_grpc_client",
-        "exporter_otlp_grpc_log", "exporter_otlp_grpc_metrics", "exporter_otlp_http",
-        "exporter_otlp_http_client", "exporter_otlp_http_metric", "exporter_prometheus",
-        "exporter_zipkin_trace", "http_client_curl", "metrics", "otlp_recordable",
-        "resources", "trace", "version"
-    ] %}
-    # not available on windows
-    {% set libs = libs + ["exporter_ostream_logs", "exporter_otlp_http_log", "logs"] %}  # [not win]
-    {% for each_lib in libs %}
-    # shared
-    - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.so                 # [linux]
-    - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.dylib              # [osx]
-    - if not exist %LIBRARY_BIN%\opentelemetry_{{ each_lib }}.dll exit 1     # [win]
-    - if not exist %LIBRARY_LIB%\opentelemetry_{{ each_lib }}.lib exit 1     # [win]
+        # absence of all libraries (static & shared)
+        {% for each_lib in libs + libs_always_static %}
+        - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                # [unix]
+        - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.so               # [linux]
+        - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.dylib            # [osx]
+        - if exist %LIBRARY_BIN%\opentelemetry_{{ each_lib }}.dll exit 1         # [win]
+        - if exist %LIBRARY_LIB%\opentelemetry_{{ each_lib }}.lib exit 1         # [win]
+        {% endfor %}
 
-    # absence of static libraries
-    - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                # [unix]
-    {% endfor %}
+        # absence of CMake metadata (reserved for libopentelemetry-cpp)
+        - test ! -d $PREFIX/lib/cmake/opentelemetry-cpp          # [unix]
+        - if exist %LIBRARY_LIB%\cmake\opentelemetry-cpp exit 1  # [win]
 
-    # libopentelemetry_proto is always static even for BUILD_SHARED_LIBS=ON
-    {% set libs_always_static = ["proto"] %}
-    {% for each_lib in libs_always_static %}
-    # static libraries
-    - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                  # [unix]
-    - if not exist %LIBRARY_LIB%\opentelemetry_{{ each_lib }}.lib exit 1     # [win]
+  # compatibility output for old naming convention
+  - name: cpp-opentelemetry-api
+    requirements:
+      host:
+        - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
+      run:
+        - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
+    test:
+      commands:
+        - echo "tested in other output"
 
-    # absence of shared libraries
-    - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.so               # [linux]
-    - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.dylib            # [osx]
-    - if exist %LIBRARY_BIN%\opentelemetry_{{ each_lib }}.dll exit 1         # [win]
-    {% endfor %}
+  - name: libopentelemetry-cpp
+    script: install.sh   # [unix]
+    script: install.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage("libopentelemetry-cpp", max_pin="x.x") }}
+    requirements:
+      build:
+        - cmake
+      host:
+        - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
+        - libcurl
+        - libgrpc
+        - libprotobuf
+        - nlohmann_json >=3.10.5
+        - zlib
+        - prometheus-cpp
+        # because the windows builds of libgrpc is static, we need _its_
+        # (not yet present) host dependencies to be able to link correctly
+        - c-ares         # [win]
+        - libabseil      # [win]
+        - openssl        # [win]
+        - re2            # [win]
+      run:
+        - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
+        - nlohmann_json
+        - prometheus-cpp
+      run_constrained:
+        # make sure we don't co-install with old version of old package name
+        - cpp-opentelemetry-sdk ={{ version }}
 
-    # cmake
-    - test -f ${PREFIX}/lib/cmake/opentelemetry-cpp/opentelemetry-cpp-config.cmake              # [unix]
-    - if not exist %LIBRARY_LIB%\cmake\opentelemetry-cpp\opentelemetry-cpp-config.cmake exit 1  # [win]
+    test:
+      commands:
+        # headers; not exhaustive, just a subset for testing
+        {% set headers = [
+            "exporters/ostream/common_utils.h", "exporters/otlp/otlp_http.h",
+            "exporters/prometheus/collector.h", "ext/http/common/url_parser.h",
+            "proto/common/v1/common.pb.h", "sdk/common/atomic_shared_ptr.h",
+            "sdk/metrics/data/point_data.h", "sdk/metrics/meter.h",
+            "sdk/resource/resource.h", "sdk/trace/sampler.h", "sdk/version/version.h"
+        ] %}
+        # not available on windows
+        {% set headers = headers + ["sdk/logs/logger.h"] %}  # [not win]
+        {% for each_header in headers %}
+        - test -f $PREFIX/include/opentelemetry/{{ each_header }} || (echo "{{ each_header }} not found" && exit 1)  # [unix]
+        - if not exist %LIBRARY_INC%\opentelemetry\{{ "\\".join(each_header.split("/")) }} exit 1                    # [win]
+        {% endfor %}
 
+        # libraries
+        {% for each_lib in libs %}
+        # shared
+        - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.so                 # [linux]
+        - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.dylib              # [osx]
+        - if not exist %LIBRARY_BIN%\opentelemetry_{{ each_lib }}.dll exit 1     # [win]
+        - if not exist %LIBRARY_LIB%\opentelemetry_{{ each_lib }}.lib exit 1     # [win]
+
+        # absence of static libraries
+        - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                # [unix]
+        {% endfor %}
+
+        {% for each_lib in libs_always_static %}
+        # static libraries
+        - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                  # [unix]
+        - if not exist %LIBRARY_LIB%\opentelemetry_{{ each_lib }}.lib exit 1     # [win]
+
+        # absence of shared libraries
+        - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.so               # [linux]
+        - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.dylib            # [osx]
+        - if exist %LIBRARY_BIN%\opentelemetry_{{ each_lib }}.dll exit 1         # [win]
+        {% endfor %}
+
+        # cmake
+        - test -f ${PREFIX}/lib/cmake/opentelemetry-cpp/opentelemetry-cpp-config.cmake              # [unix]
+        - if not exist %LIBRARY_LIB%\cmake\opentelemetry-cpp\opentelemetry-cpp-config.cmake exit 1  # [win]
+
+  # compatibility output for old naming convention
+  - name: cpp-opentelemetry-sdk
+    build:
+      run_exports:
+        - {{ pin_subpackage("libopentelemetry-cpp", max_pin="x.x") }}
+    requirements:
+      host:
+        # match host deps to avoid hash collisions between wrappers
+        - libcurl
+        - libgrpc
+        - libprotobuf
+        - nlohmann_json
+        - zlib
+        - prometheus-cpp
+        - {{ pin_subpackage("libopentelemetry-cpp", exact=True) }}
+      run:
+        - {{ pin_subpackage("libopentelemetry-cpp", exact=True) }}
+    test:
+      commands:
+        - echo "tested in other output"
 about:
   home: https://github.com/open-telemetry/opentelemetry-cpp
   license: Apache-2.0
@@ -130,3 +209,4 @@ extra:
   recipe-maintainers:
     - lidavidm
     - h-vetinari
+  feedstock-name: cpp-opentelemetry-sdk

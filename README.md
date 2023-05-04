@@ -3,6 +3,81 @@ About cpp-opentelemetry-sdk-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/cpp-opentelemetry-sdk-feedstock/blob/main/LICENSE.txt)
 
+About cpp-opentelemetry-sdk
+---------------------------
+
+Home: https://github.com/open-telemetry/opentelemetry-cpp
+
+Package license: Apache-2.0
+
+Summary: The OpenTelemetry C++ Client
+
+Development: https://github.com/open-telemetry/opentelemetry-cpp
+
+Documentation: https://opentelemetry.io/docs/instrumentation/cpp/
+
+OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to
+instrument, generate, collect, and export telemetry data (metrics,
+logs, and traces) to help you analyze your softwareâ€™s performance
+and behavior.
+
+About libopentelemetry-cpp-headers
+----------------------------------
+
+Home: https://github.com/open-telemetry/opentelemetry-cpp
+
+Package license: Apache-2.0
+
+Summary: The OpenTelemetry C++ Client
+
+Development: https://github.com/open-telemetry/opentelemetry-cpp
+
+Documentation: https://opentelemetry.io/docs/instrumentation/cpp/
+
+OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to
+instrument, generate, collect, and export telemetry data (metrics,
+logs, and traces) to help you analyze your software’s performance
+and behavior.
+
+About cpp-opentelemetry-api
+---------------------------
+
+Home: https://github.com/open-telemetry/opentelemetry-cpp
+
+Package license: Apache-2.0
+
+Summary: The OpenTelemetry C++ Client
+
+Development: https://github.com/open-telemetry/opentelemetry-cpp
+
+Documentation: https://opentelemetry.io/docs/instrumentation/cpp/
+
+OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to
+instrument, generate, collect, and export telemetry data (metrics,
+logs, and traces) to help you analyze your software’s performance
+and behavior.
+
+About libopentelemetry-cpp
+--------------------------
+
+Home: https://github.com/open-telemetry/opentelemetry-cpp
+
+Package license: Apache-2.0
+
+Summary: The OpenTelemetry C++ Client
+
+Development: https://github.com/open-telemetry/opentelemetry-cpp
+
+Documentation: https://opentelemetry.io/docs/instrumentation/cpp/
+
+OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to
+instrument, generate, collect, and export telemetry data (metrics,
+logs, and traces) to help you analyze your software’s performance
+and behavior.
+
+About cpp-opentelemetry-sdk
+---------------------------
+
 Home: https://github.com/open-telemetry/opentelemetry-cpp
 
 Package license: Apache-2.0
@@ -91,7 +166,10 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-cpp--opentelemetry--api-green.svg)](https://anaconda.org/conda-forge/cpp-opentelemetry-api) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cpp-opentelemetry-api.svg)](https://anaconda.org/conda-forge/cpp-opentelemetry-api) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cpp-opentelemetry-api.svg)](https://anaconda.org/conda-forge/cpp-opentelemetry-api) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cpp-opentelemetry-api.svg)](https://anaconda.org/conda-forge/cpp-opentelemetry-api) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-cpp--opentelemetry--sdk-green.svg)](https://anaconda.org/conda-forge/cpp-opentelemetry-sdk) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cpp-opentelemetry-sdk.svg)](https://anaconda.org/conda-forge/cpp-opentelemetry-sdk) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cpp-opentelemetry-sdk.svg)](https://anaconda.org/conda-forge/cpp-opentelemetry-sdk) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cpp-opentelemetry-sdk.svg)](https://anaconda.org/conda-forge/cpp-opentelemetry-sdk) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libopentelemetry--cpp-green.svg)](https://anaconda.org/conda-forge/libopentelemetry-cpp) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libopentelemetry-cpp.svg)](https://anaconda.org/conda-forge/libopentelemetry-cpp) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libopentelemetry-cpp.svg)](https://anaconda.org/conda-forge/libopentelemetry-cpp) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libopentelemetry-cpp.svg)](https://anaconda.org/conda-forge/libopentelemetry-cpp) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libopentelemetry--cpp--headers-green.svg)](https://anaconda.org/conda-forge/libopentelemetry-cpp-headers) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libopentelemetry-cpp-headers.svg)](https://anaconda.org/conda-forge/libopentelemetry-cpp-headers) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libopentelemetry-cpp-headers.svg)](https://anaconda.org/conda-forge/libopentelemetry-cpp-headers) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libopentelemetry-cpp-headers.svg)](https://anaconda.org/conda-forge/libopentelemetry-cpp-headers) |
 
 Installing cpp-opentelemetry-sdk
 ================================
@@ -103,41 +181,41 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `cpp-opentelemetry-sdk` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `cpp-opentelemetry-api, cpp-opentelemetry-sdk, libopentelemetry-cpp, libopentelemetry-cpp-headers` can be installed with `conda`:
 
 ```
-conda install cpp-opentelemetry-sdk
-```
-
-or with `mamba`:
-
-```
-mamba install cpp-opentelemetry-sdk
-```
-
-It is possible to list all of the versions of `cpp-opentelemetry-sdk` available on your platform with `conda`:
-
-```
-conda search cpp-opentelemetry-sdk --channel conda-forge
+conda install cpp-opentelemetry-api cpp-opentelemetry-sdk libopentelemetry-cpp libopentelemetry-cpp-headers
 ```
 
 or with `mamba`:
 
 ```
-mamba search cpp-opentelemetry-sdk --channel conda-forge
+mamba install cpp-opentelemetry-api cpp-opentelemetry-sdk libopentelemetry-cpp libopentelemetry-cpp-headers
+```
+
+It is possible to list all of the versions of `cpp-opentelemetry-api` available on your platform with `conda`:
+
+```
+conda search cpp-opentelemetry-api --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search cpp-opentelemetry-api --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search cpp-opentelemetry-sdk --channel conda-forge
+mamba repoquery search cpp-opentelemetry-api --channel conda-forge
 
-# List packages depending on `cpp-opentelemetry-sdk`:
-mamba repoquery whoneeds cpp-opentelemetry-sdk --channel conda-forge
+# List packages depending on `cpp-opentelemetry-api`:
+mamba repoquery whoneeds cpp-opentelemetry-api --channel conda-forge
 
-# List dependencies of `cpp-opentelemetry-sdk`:
-mamba repoquery depends cpp-opentelemetry-sdk --channel conda-forge
+# List dependencies of `cpp-opentelemetry-api`:
+mamba repoquery depends cpp-opentelemetry-api --channel conda-forge
 ```
 
 
