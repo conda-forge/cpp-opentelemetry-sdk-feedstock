@@ -37,4 +37,4 @@ cmake -GNinja \
     -DWITH_ZIPKIN=ON \
     ..
 
-ninja install
+cmake --build .

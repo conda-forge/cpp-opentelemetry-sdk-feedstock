@@ -15,27 +15,47 @@ source:
 build:
   number: 2
 
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - cmake >=3.1
+    - ninja
+    - proto-opentelemetry-proto =0.19.0
+
+    # For cross-compiling
+    - curl                    # [build_platform != target_platform]
+    - libgrpc                 # [build_platform != target_platform]
+    - libprotobuf             # [build_platform != target_platform]
+    - nlohmann_json >=3.10.5  # [build_platform != target_platform]
+    - zlib                    # [build_platform != target_platform]
+    - prometheus-cpp          # [build_platform != target_platform]
+  host:
+    # -api and -sdk packages of different versions are not necessarily
+    # compatible.
+    - cpp-opentelemetry-api ={{ version }}
+    - libcurl
+    - libgrpc
+    - libprotobuf
+    - nlohmann_json >=3.10.5
+    - zlib
+    - prometheus-cpp
+    # because the windows builds of libgrpc is static, we need _its_
+    # (not yet present) host dependencies to be able to link correctly
+    - c-ares         # [win]
+    - libabseil      # [win]
+    - openssl        # [win]
+    - re2            # [win]
+
 outputs:
   - name: libopentelemetry-cpp
-    script: build-lib.sh   # [unix]
-    script: build-lib.bat  # [win]
+    script: install.sh   # [unix]
+    script: install.bat  # [win]
     build:
       run_exports:
         - {{ pin_subpackage("libopentelemetry-cpp", max_pin="x.x") }}
     requirements:
       build:
-        - {{ compiler('cxx') }}
-        - cmake >=3.1
-        - ninja
-        - proto-opentelemetry-proto =0.19.0
-
-        # For cross-compiling
-        - curl                    # [build_platform != target_platform]
-        - libgrpc                 # [build_platform != target_platform]
-        - libprotobuf             # [build_platform != target_platform]
-        - nlohmann_json >=3.10.5  # [build_platform != target_platform]
-        - zlib                    # [build_platform != target_platform]
-        - prometheus-cpp          # [build_platform != target_platform]
+        - cmake
       host:
         # -api and -sdk packages of different versions are not necessarily
         # compatible.
