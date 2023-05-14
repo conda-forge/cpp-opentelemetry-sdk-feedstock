@@ -17,7 +17,7 @@ libprotobuf:
 openssl:
 - '3'
 re2:
-- 2023.02.02
+- 2023.03.02
 target_platform:
 - win-64
 zlib:
