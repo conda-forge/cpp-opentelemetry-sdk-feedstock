@@ -26,7 +26,7 @@ source:
       - patches/0002-add-missing-shared-library-dependencies.patch
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
