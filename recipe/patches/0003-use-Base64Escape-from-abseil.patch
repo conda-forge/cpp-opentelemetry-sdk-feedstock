@@ -1,0 +1,58 @@
+From 9ed8306106cffe0c52083778532920a65d25750d Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Sat, 27 May 2023 02:51:30 +1100
+Subject: [PATCH 3/3] use Base64Escape from abseil
+
+has been removed from protobuf
+---
+ exporters/otlp/src/otlp_http_client.cc | 20 +++-----------------
+ 1 file changed, 3 insertions(+), 17 deletions(-)
+
+diff --git a/exporters/otlp/src/otlp_http_client.cc b/exporters/otlp/src/otlp_http_client.cc
+index 5cbc6595..0362c999 100644
+--- a/exporters/otlp/src/otlp_http_client.cc
++++ b/exporters/otlp/src/otlp_http_client.cc
+@@ -14,25 +14,11 @@
+ 
+ #include "opentelemetry/exporters/otlp/protobuf_include_prefix.h"
+ 
++#include "absl/strings/escaping.h"
+ #include "google/protobuf/message.h"
+ #include "google/protobuf/reflection.h"
+-#include "google/protobuf/stubs/common.h"
+-#include "google/protobuf/stubs/stringpiece.h"
+ #include "nlohmann/json.hpp"
+ 
+-#if defined(GOOGLE_PROTOBUF_VERSION) && GOOGLE_PROTOBUF_VERSION >= 3007000
+-#  include "google/protobuf/stubs/strutil.h"
+-#else
+-#  include "google/protobuf/stubs/port.h"
+-namespace google
+-{
+-namespace protobuf
+-{
+-LIBPROTOBUF_EXPORT void Base64Escape(StringPiece src, std::string *dest);
+-}  // namespace protobuf
+-}  // namespace google
+-#endif
+-
+ #include "opentelemetry/exporters/otlp/protobuf_include_suffix.h"
+ 
+ #include "opentelemetry/common/timestamp.h"
+@@ -414,14 +400,14 @@ static std::string BytesMapping(const std::string &bytes,
+       else
+       {
+         std::string base64_value;
+-        google::protobuf::Base64Escape(bytes, &base64_value);
++        absl::Base64Escape(bytes, &base64_value);
+         return base64_value;
+       }
+     }
+     case JsonBytesMappingKind::kBase64: {
+       // Base64 is the default bytes mapping of protobuf
+       std::string base64_value;
+-      google::protobuf::Base64Escape(bytes, &base64_value);
++      absl::Base64Escape(bytes, &base64_value);
+       return base64_value;
+     }
+     case JsonBytesMappingKind::kHex:
