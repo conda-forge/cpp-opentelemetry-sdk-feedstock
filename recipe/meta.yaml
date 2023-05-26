@@ -10,9 +10,9 @@
     "resources", "trace", "version"
 ] %}
 # not available on windows
-{% set libs = libs + ["exporter_ostream_logs", "exporter_otlp_http_log", "logs"] %}  # [not win]
-# libopentelemetry_proto is always static even for BUILD_SHARED_LIBS=ON
-{% set libs_always_static = ["proto"] %}
+{% set libs = libs + ["exporter_ostream_logs", "exporter_otlp_http_log", "logs", "proto"] %}  # [not win]
+# libopentelemetry_proto is static on windows even for BUILD_SHARED_LIBS=ON
+{% set libs_always_static = ["proto"] if win else [] %}
 
 package:
   name: opentelemetry-sdk
