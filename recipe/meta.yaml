@@ -43,9 +43,6 @@ requirements:
     - zlib                    # [build_platform != target_platform]
     - prometheus-cpp          # [build_platform != target_platform]
   host:
-    # -api and -sdk packages of different versions are not necessarily
-    # compatible.
-    - cpp-opentelemetry-api ={{ version }}
     - libcurl
     - libgrpc
     - libprotobuf
