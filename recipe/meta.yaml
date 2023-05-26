@@ -43,6 +43,7 @@ requirements:
     - zlib                    # [build_platform != target_platform]
     - prometheus-cpp          # [build_platform != target_platform]
   host:
+    - libabseil
     - libcurl
     - libgrpc
     - libprotobuf
@@ -52,7 +53,6 @@ requirements:
     # because the windows builds of libgrpc is static, we need _its_
     # (not yet present) host dependencies to be able to link correctly
     - c-ares         # [win]
-    - libabseil      # [win]
     - openssl        # [win]
     - re2            # [win]
 
@@ -104,6 +104,7 @@ outputs:
         - cmake
       host:
         - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
+        - libabseil
         - libcurl
         - libgrpc
         - libprotobuf
@@ -113,7 +114,6 @@ outputs:
         # because the windows builds of libgrpc is static, we need _its_
         # (not yet present) host dependencies to be able to link correctly
         - c-ares         # [win]
-        - libabseil      # [win]
         - openssl        # [win]
         - re2            # [win]
       run:
@@ -176,6 +176,7 @@ outputs:
     requirements:
       host:
         # match host deps to avoid hash collisions between wrappers
+        - libabseil
         - libcurl
         - libgrpc
         - libprotobuf
