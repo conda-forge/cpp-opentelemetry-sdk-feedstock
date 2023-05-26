@@ -1,4 +1,4 @@
-From 9b21cf5d403d926f555707e9d15af2f0a6262e8d Mon Sep 17 00:00:00 2001
+From 863fcc27b2d95b3ba99e166eeebf154d66eea434 Mon Sep 17 00:00:00 2001
 From: David Li <li.davidm96@gmail.com>
 Date: Tue, 14 Dec 2021 15:47:51 -0500
 Subject: [PATCH 1/2] cross_compile_grpc_cpp_plugin_path
@@ -8,7 +8,7 @@ Subject: [PATCH 1/2] cross_compile_grpc_cpp_plugin_path
  1 file changed, 7 insertions(+), 10 deletions(-)
 
 diff --git a/cmake/opentelemetry-proto.cmake b/cmake/opentelemetry-proto.cmake
-index 1aa1ba03..d9b08dc5 100644
+index 34b33d3c..e228504d 100644
 --- a/cmake/opentelemetry-proto.cmake
 +++ b/cmake/opentelemetry-proto.cmake
 @@ -156,16 +156,13 @@ foreach(IMPORT_DIR ${PROTOBUF_IMPORT_DIRS})
