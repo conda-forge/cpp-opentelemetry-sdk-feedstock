@@ -22,5 +22,8 @@ libprotobuf:
 - '3.21'
 target_platform:
 - linux-aarch64
+zip_keys:
+- - libgrpc
+  - libprotobuf
 zlib:
 - '1.2'
