@@ -1,5 +1,5 @@
 # code: language: jinja-yaml
-{% set version = "1.9.0" %}
+{% set version = "1.9.1" %}
 
 {% set libs = [
     "common", "exporter_in_memory", "exporter_ostream_metrics",
@@ -20,13 +20,13 @@ package:
 
 source:
   - url: https://github.com/open-telemetry/opentelemetry-cpp/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 0fdbefbdc2c154634728097e26de52a8210ed95cb032beb5f35da0a493cd5066
+    sha256: 668de24f81c8d36d75092ad9dcb02a97cd41473adbe72485ece05e336db48249
     patches:
       - patches/0001-cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
       - patches/0002-add-missing-shared-library-dependencies.patch
 
 build:
-  number: 3
+  number: 0
 
 requirements:
   build:
