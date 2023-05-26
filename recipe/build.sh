@@ -34,8 +34,8 @@ cmake -GNinja \
     -DWITH_OTLP_GRPC=ON \
     -DWITH_OTLP_HTTP=ON \
     -DWITH_PROMETHEUS=ON \
-    -DProtobuf_PROTOC_EXECUTABLE=$PROTOC_EXECUTABLE \
     -DWITH_ZIPKIN=ON \
+    -DProtobuf_PROTOC_EXECUTABLE=$PROTOC_EXECUTABLE \
     ..
 
 cmake --build .
