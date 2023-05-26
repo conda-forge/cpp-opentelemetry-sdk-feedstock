@@ -50,11 +50,11 @@ requirements:
     - nlohmann_json >=3.10.5
     - zlib
     - prometheus-cpp
-    # because the windows builds of libgrpc is static, we need _its_
-    # (not yet present) host dependencies to be able to link correctly
-    - c-ares         # [win]
-    - openssl        # [win]
-    - re2            # [win]
+    # because the windows builds of libgrpc before 1.55 are static, we need
+    # _their_ (not yet present) host dependencies to be able to link correctly
+    - c-ares         # [win and libprotobuf == "3.21"]
+    - openssl        # [win and libprotobuf == "3.21"]
+    - re2            # [win and libprotobuf == "3.21"]
 
 outputs:
   - name: libopentelemetry-cpp-headers
@@ -111,11 +111,11 @@ outputs:
         - nlohmann_json >=3.10.5
         - zlib
         - prometheus-cpp
-        # because the windows builds of libgrpc is static, we need _its_
-        # (not yet present) host dependencies to be able to link correctly
-        - c-ares         # [win]
-        - openssl        # [win]
-        - re2            # [win]
+        # because the windows builds of libgrpc before 1.55 are static, we need
+        # _their_ (not yet present) host dependencies to be able to link correctly
+        - c-ares         # [win and libprotobuf == "3.21"]
+        - openssl        # [win and libprotobuf == "3.21"]
+        - re2            # [win and libprotobuf == "3.21"]
       run:
         - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
         - nlohmann_json
