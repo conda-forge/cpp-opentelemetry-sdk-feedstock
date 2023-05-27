@@ -24,9 +24,11 @@ source:
     patches:
       - patches/0001-cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
       - patches/0002-add-missing-shared-library-dependencies.patch
+      - patches/0003-use-Base64Escape-from-abseil.patch        # [libprotobuf != "3.21"]
+      - patches/0004-add-necessary-abseil-linkage.patch
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -43,18 +45,18 @@ requirements:
     - zlib                    # [build_platform != target_platform]
     - prometheus-cpp          # [build_platform != target_platform]
   host:
+    - libabseil
     - libcurl
     - libgrpc
     - libprotobuf
     - nlohmann_json >=3.10.5
     - zlib
     - prometheus-cpp
-    # because the windows builds of libgrpc is static, we need _its_
-    # (not yet present) host dependencies to be able to link correctly
-    - c-ares         # [win]
-    - libabseil      # [win]
-    - openssl        # [win]
-    - re2            # [win]
+    # because the windows builds of libgrpc before 1.55 are static, we need
+    # _their_ (not yet present) host dependencies to be able to link correctly
+    - c-ares         # [win and libprotobuf == "3.21"]
+    - openssl        # [win and libprotobuf == "3.21"]
+    - re2            # [win and libprotobuf == "3.21"]
 
 outputs:
   - name: libopentelemetry-cpp-headers
@@ -104,18 +106,18 @@ outputs:
         - cmake
       host:
         - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
+        - libabseil
         - libcurl
         - libgrpc
         - libprotobuf
         - nlohmann_json >=3.10.5
         - zlib
         - prometheus-cpp
-        # because the windows builds of libgrpc is static, we need _its_
-        # (not yet present) host dependencies to be able to link correctly
-        - c-ares         # [win]
-        - libabseil      # [win]
-        - openssl        # [win]
-        - re2            # [win]
+        # because the windows builds of libgrpc before 1.55 are static, we need
+        # _their_ (not yet present) host dependencies to be able to link correctly
+        - c-ares         # [win and libprotobuf == "3.21"]
+        - openssl        # [win and libprotobuf == "3.21"]
+        - re2            # [win and libprotobuf == "3.21"]
       run:
         - {{ pin_subpackage("libopentelemetry-cpp-headers", exact=True) }}
         - nlohmann_json
@@ -176,6 +178,7 @@ outputs:
     requirements:
       host:
         # match host deps to avoid hash collisions between wrappers
+        - libabseil
         - libcurl
         - libgrpc
         - libprotobuf

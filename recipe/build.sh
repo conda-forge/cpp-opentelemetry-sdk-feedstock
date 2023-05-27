@@ -15,6 +15,14 @@ if [[ "$CONDA_BUILD_CROSS_COMPILATION" == 1 ]]; then
     PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc
 fi
 
+if [[ "${target_platform}" == osx-* ]]; then
+  # See https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk
+  CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
+  # protobuf switches definitions based on presence of this symbol, for details see
+  # https://github.com/protocolbuffers/protobuf/issues/12746#issuecomment-1546736962
+  CXXFLAGS="${CXXFLAGS} -DPROTOBUF_USE_DLLS"
+fi
+
 cmake -GNinja \
     ${CMAKE_ARGS} \
     -DCMAKE_BUILD_TYPE=Release \
@@ -25,6 +33,7 @@ cmake -GNinja \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTING=OFF \
     -DOPENTELEMETRY_INSTALL=ON \
+    -DWITH_ABSEIL=ON \
     -DWITH_API_ONLY=OFF \
     -DWITH_BENCHMARK=OFF \
     -DWITH_EXAMPLES=OFF \
@@ -33,8 +42,8 @@ cmake -GNinja \
     -DWITH_OTLP_GRPC=ON \
     -DWITH_OTLP_HTTP=ON \
     -DWITH_PROMETHEUS=ON \
-    -DProtobuf_PROTOC_EXECUTABLE=$PROTOC_EXECUTABLE \
     -DWITH_ZIPKIN=ON \
+    -DProtobuf_PROTOC_EXECUTABLE=$PROTOC_EXECUTABLE \
     ..
 
 cmake --build .
