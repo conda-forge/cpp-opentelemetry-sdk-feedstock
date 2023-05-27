@@ -1,0 +1,31 @@
+From 52f6372130918e4b5443c3abcd0fae8b69587603 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Sat, 27 May 2023 14:50:43 +1100
+Subject: [PATCH 4/4] add necessary abseil linkage
+
+---
+ exporters/otlp/CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/exporters/otlp/CMakeLists.txt b/exporters/otlp/CMakeLists.txt
+index 58c09f89..42afc469 100644
+--- a/exporters/otlp/CMakeLists.txt
++++ b/exporters/otlp/CMakeLists.txt
+@@ -102,7 +102,7 @@ if(WITH_OTLP_GRPC)
+     opentelemetry_exporter_otlp_grpc_metrics
+     PUBLIC opentelemetry_otlp_recordable
+            opentelemetry_exporter_otlp_grpc_client
+-    PRIVATE gRPC::grpc++)
++    PRIVATE gRPC::grpc++ absl::strings)
+ 
+   list(APPEND OPENTELEMETRY_OTLP_TARGETS
+        opentelemetry_exporter_otlp_grpc_metrics)
+@@ -118,7 +118,7 @@ if(WITH_OTLP_HTTP)
+     opentelemetry_exporter_otlp_http_client
+     PUBLIC opentelemetry_sdk opentelemetry_ext opentelemetry_common
+     PRIVATE opentelemetry_proto opentelemetry_http_client_curl
+-            nlohmann_json::nlohmann_json)
++            nlohmann_json::nlohmann_json absl::strings)
+   if(nlohmann_json_clone)
+     add_dependencies(opentelemetry_exporter_otlp_http_client
+                      nlohmann_json::nlohmann_json)

@@ -1,7 +1,7 @@
 From 7333b54233024442aa0cf36b0b9dc0400ccb7a31 Mon Sep 17 00:00:00 2001
 From: Will Jones <willjones127@gmail.com>
 Date: Tue, 18 Apr 2023 11:52:23 -0700
-Subject: [PATCH 2/3] add missing shared library dependencies
+Subject: [PATCH 2/4] add missing shared library dependencies
 
 Co-Authored-By: H. Vetinari <h.vetinari@gmx.com>
 ---

@@ -25,6 +25,7 @@ source:
       - patches/0001-cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
       - patches/0002-add-missing-shared-library-dependencies.patch
       - patches/0003-use-Base64Escape-from-abseil.patch        # [libprotobuf != "3.21"]
+      - patches/0004-add-necessary-abseil-linkage.patch
 
 build:
   number: 1
