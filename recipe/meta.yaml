@@ -28,7 +28,7 @@ source:
       - patches/0004-add-necessary-abseil-linkage.patch
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
