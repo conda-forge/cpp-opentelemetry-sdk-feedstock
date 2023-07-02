@@ -1,25 +1,29 @@
-c_ares:
-- '1'
+BUILD:
+- aarch64-conda_cos7-linux-gnu
+cdt_arch:
+- aarch64
+cdt_name:
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2019
+- gxx
+cxx_compiler_version:
+- '12'
+docker_image:
+- quay.io/condaforge/linux-anvil-cos7-x86_64
 libabseil:
 - '20230125'
 libcurl:
 - '8'
 libgrpc:
-- '1.55'
+- '1.56'
 libprotobuf:
-- 4.23.2
-openssl:
-- '3'
-re2:
-- 2023.03.02
+- 4.23.3
 target_platform:
-- win-64
+- linux-aarch64
 zip_keys:
 - - libgrpc
   - libprotobuf
