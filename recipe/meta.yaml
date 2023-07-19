@@ -1,5 +1,5 @@
 # code: language: jinja-yaml
-{% set version = "1.9.1" %}
+{% set version = "1.10.0" %}
 
 {% set libs = [
     "common", "exporter_in_memory", "exporter_ostream_metrics",
@@ -20,15 +20,16 @@ package:
 
 source:
   - url: https://github.com/open-telemetry/opentelemetry-cpp/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 668de24f81c8d36d75092ad9dcb02a97cd41473adbe72485ece05e336db48249
+    sha256: 19e8ade04a674c8cf7f0dc6da1f7b0583a27d2cf4dbc03df87894a16a4547834
     patches:
       - patches/0001-cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
       - patches/0002-add-missing-shared-library-dependencies.patch
       - patches/0003-use-Base64Escape-from-abseil.patch        # [libprotobuf != "3.21"]
       - patches/0004-add-necessary-abseil-linkage.patch
+      - patches/0005-Add-missing-cstdint-include.patch
 
 build:
-  number: 3
+  number: 0
 
 requirements:
   build:
@@ -60,7 +61,7 @@ requirements:
 
 outputs:
   - name: libopentelemetry-cpp-headers
-    script: install.sh   # [unix]
+    script: install.sh  # [unix]
     script: install.bat  # [win]
     requirements:
       build:
@@ -96,7 +97,7 @@ outputs:
         - echo "tested in other output"
 
   - name: libopentelemetry-cpp
-    script: install.sh   # [unix]
+    script: install.sh  # [unix]
     script: install.bat  # [win]
     build:
       run_exports:
