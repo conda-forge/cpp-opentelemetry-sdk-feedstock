@@ -26,6 +26,7 @@ source:
       - patches/0002-add-missing-shared-library-dependencies.patch
       - patches/0003-use-Base64Escape-from-abseil.patch        # [libprotobuf != "3.21"]
       - patches/0004-add-necessary-abseil-linkage.patch
+      - patches/0005-Add-missing-cstdint-include.patch
 
 build:
   number: 0
