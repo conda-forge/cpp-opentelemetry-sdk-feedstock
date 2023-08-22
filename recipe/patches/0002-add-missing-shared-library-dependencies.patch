@@ -1,4 +1,4 @@
-From e964deb59d1b0d9a35b8858ab21dc12a9761545b Mon Sep 17 00:00:00 2001
+From 8de02ca1312fd2a5965fc2c10c9b91df5a33a88d Mon Sep 17 00:00:00 2001
 From: Will Jones <willjones127@gmail.com>
 Date: Tue, 22 Aug 2023 15:53:07 -0400
 Subject: [PATCH 2/3] add missing shared library dependencies
