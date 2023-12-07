@@ -1,0 +1,113 @@
+From cd8d81dfc8dbe3f3144e227686e0b21c90f61726 Mon Sep 17 00:00:00 2001
+From: David Li <li.davidm96@gmail.com>
+Date: Thu, 7 Dec 2023 14:10:01 -0500
+Subject: [PATCH] Define NOMINMAX for Windows
+
+---
+ exporters/otlp/src/otlp_grpc_exporter.cc                    | 3 +++
+ exporters/otlp/src/otlp_grpc_exporter_factory.cc            | 3 +++
+ exporters/otlp/src/otlp_http_client.cc                      | 3 +++
+ exporters/otlp/src/otlp_http_exporter.cc                    | 3 +++
+ exporters/otlp/src/otlp_http_exporter_factory.cc            | 3 +++
+ exporters/otlp/src/otlp_http_log_record_exporter.cc         | 3 +++
+ exporters/otlp/src/otlp_http_log_record_exporter_factory.cc | 3 +++
+ 7 files changed, 21 insertions(+)
+
+diff --git a/exporters/otlp/src/otlp_grpc_exporter.cc b/exporters/otlp/src/otlp_grpc_exporter.cc
+index 30a9b63f..44869e07 100644
+--- a/exporters/otlp/src/otlp_grpc_exporter.cc
++++ b/exporters/otlp/src/otlp_grpc_exporter.cc
+@@ -4,6 +4,9 @@
+ #include <memory>
+ #include <mutex>
+ 
++// gRPC forgets to do this on Windows and headers use std::min/max
++#define NOMINMAX
++
+ #include "opentelemetry/exporters/otlp/otlp_grpc_exporter.h"
+ 
+ #include "opentelemetry/exporters/otlp/otlp_grpc_client.h"
+diff --git a/exporters/otlp/src/otlp_grpc_exporter_factory.cc b/exporters/otlp/src/otlp_grpc_exporter_factory.cc
+index f8ee7e35..72c866fd 100644
+--- a/exporters/otlp/src/otlp_grpc_exporter_factory.cc
++++ b/exporters/otlp/src/otlp_grpc_exporter_factory.cc
+@@ -1,6 +1,9 @@
+ // Copyright The OpenTelemetry Authors
+ // SPDX-License-Identifier: Apache-2.0
+ 
++// gRPC forgets to do this on Windows and headers use std::min/max
++#define NOMINMAX
++
+ // Make sure to include GRPC exporter first because otherwise Abseil may create
+ // ambiguity with `nostd::variant`. See issue:
+ // https://github.com/open-telemetry/opentelemetry-cpp/issues/880
+diff --git a/exporters/otlp/src/otlp_http_client.cc b/exporters/otlp/src/otlp_http_client.cc
+index c6bc1e11..ec35516a 100644
+--- a/exporters/otlp/src/otlp_http_client.cc
++++ b/exporters/otlp/src/otlp_http_client.cc
+@@ -1,6 +1,9 @@
+ // Copyright The OpenTelemetry Authors
+ // SPDX-License-Identifier: Apache-2.0
+ 
++// Something includes Windows headers
++#define NOMINMAX
++
+ #include "opentelemetry/exporters/otlp/otlp_http_client.h"
+ 
+ #if defined(HAVE_GSL)
+diff --git a/exporters/otlp/src/otlp_http_exporter.cc b/exporters/otlp/src/otlp_http_exporter.cc
+index 6732e314..62fd6bfc 100644
+--- a/exporters/otlp/src/otlp_http_exporter.cc
++++ b/exporters/otlp/src/otlp_http_exporter.cc
+@@ -1,6 +1,9 @@
+ // Copyright The OpenTelemetry Authors
+ // SPDX-License-Identifier: Apache-2.0
+ 
++// Something includes Windows headers
++#define NOMINMAX
++
+ #include "opentelemetry/exporters/otlp/otlp_http_exporter.h"
+ #include "opentelemetry/exporters/otlp/otlp_recordable.h"
+ #include "opentelemetry/exporters/otlp/otlp_recordable_utils.h"
+diff --git a/exporters/otlp/src/otlp_http_exporter_factory.cc b/exporters/otlp/src/otlp_http_exporter_factory.cc
+index 7d892bc3..2a964dfc 100644
+--- a/exporters/otlp/src/otlp_http_exporter_factory.cc
++++ b/exporters/otlp/src/otlp_http_exporter_factory.cc
+@@ -1,6 +1,9 @@
+ // Copyright The OpenTelemetry Authors
+ // SPDX-License-Identifier: Apache-2.0
+ 
++// Something includes Windows headers
++#define NOMINMAX
++
+ #include "opentelemetry/exporters/otlp/otlp_http_exporter_factory.h"
+ #include "opentelemetry/exporters/otlp/otlp_http_exporter.h"
+ #include "opentelemetry/exporters/otlp/otlp_http_exporter_options.h"
+diff --git a/exporters/otlp/src/otlp_http_log_record_exporter.cc b/exporters/otlp/src/otlp_http_log_record_exporter.cc
+index 9414e2fd..7ca58055 100644
+--- a/exporters/otlp/src/otlp_http_log_record_exporter.cc
++++ b/exporters/otlp/src/otlp_http_log_record_exporter.cc
+@@ -1,6 +1,9 @@
+ // Copyright The OpenTelemetry Authors
+ // SPDX-License-Identifier: Apache-2.0
+ 
++// Something includes Windows headers
++#define NOMINMAX
++
+ #include "opentelemetry/exporters/otlp/otlp_http_log_record_exporter.h"
+ #include "opentelemetry/exporters/otlp/otlp_log_recordable.h"
+ #include "opentelemetry/exporters/otlp/otlp_recordable_utils.h"
+diff --git a/exporters/otlp/src/otlp_http_log_record_exporter_factory.cc b/exporters/otlp/src/otlp_http_log_record_exporter_factory.cc
+index c224acc0..d2e9c2e9 100644
+--- a/exporters/otlp/src/otlp_http_log_record_exporter_factory.cc
++++ b/exporters/otlp/src/otlp_http_log_record_exporter_factory.cc
+@@ -1,6 +1,9 @@
+ // Copyright The OpenTelemetry Authors
+ // SPDX-License-Identifier: Apache-2.0
+ 
++// Something includes Windows headers
++#define NOMINMAX
++
+ #include "opentelemetry/exporters/otlp/otlp_http_log_record_exporter_factory.h"
+ #include "opentelemetry/exporters/otlp/otlp_http_log_record_exporter.h"
+ #include "opentelemetry/exporters/otlp/otlp_http_log_record_exporter_options.h"
