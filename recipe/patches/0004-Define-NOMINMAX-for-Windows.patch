@@ -24,6 +24,7 @@ index 30a9b63f..44869e07 100644
 +// gRPC forgets to do this on Windows and headers use std::min/max
 +#define NOMINMAX
 +
+ #include "opentelemetry/common/macros.h"
  #include "opentelemetry/exporters/otlp/otlp_grpc_exporter.h"
  
  #include "opentelemetry/exporters/otlp/otlp_grpc_client.h"
