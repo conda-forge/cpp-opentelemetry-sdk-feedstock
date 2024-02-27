@@ -1,5 +1,5 @@
 # code: language: jinja-yaml
-{% set version = "1.14.1" %}
+{% set version = "1.14.2" %}
 
 {% set libs = [
     "common", "exporter_in_memory", "exporter_ostream_metrics",
@@ -20,7 +20,7 @@ package:
 
 source:
   - url: https://github.com/open-telemetry/opentelemetry-cpp/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: ba782ab583d943d2d4002ee354b9775fe2647c4a4906462db237d2733ff66df6
+    sha256: c7e7801c9f6228751cdb9dd4724d0f04777ed53f524c8828e73bf4c9f894e0bd
     patches:
       - patches/0001-cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
       - patches/0002-add-missing-shared-library-dependencies.patch
@@ -28,7 +28,7 @@ source:
       - patches/0004-Define-NOMINMAX-for-Windows.patch  # [win]
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
