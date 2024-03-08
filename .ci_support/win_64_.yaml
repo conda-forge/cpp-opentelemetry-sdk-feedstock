@@ -9,9 +9,9 @@ libabseil:
 libcurl:
 - '8'
 libgrpc:
-- '1.61'
+- '1.62'
 libprotobuf:
-- 4.25.2
+- 4.25.3
 target_platform:
 - win-64
 zip_keys:
