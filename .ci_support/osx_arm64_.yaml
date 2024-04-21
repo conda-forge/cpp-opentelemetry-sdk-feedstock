@@ -1,5 +1,9 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '11.0'
+c_stdlib:
+- macosx_deployment_target
+c_stdlib_version:
+- '11.0'
 channel_sources:
 - conda-forge
 channel_targets:
@@ -20,8 +24,5 @@ macos_machine:
 - arm64-apple-darwin20.0.0
 target_platform:
 - osx-arm64
-zip_keys:
-- - libgrpc
-  - libprotobuf
 zlib:
 - '1.2'
