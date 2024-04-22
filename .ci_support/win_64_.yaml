@@ -1,3 +1,5 @@
+c_stdlib:
+- vs
 channel_sources:
 - conda-forge
 channel_targets:
@@ -14,8 +16,5 @@ libprotobuf:
 - 4.25.3
 target_platform:
 - win-64
-zip_keys:
-- - libgrpc
-  - libprotobuf
 zlib:
 - '1.2'
