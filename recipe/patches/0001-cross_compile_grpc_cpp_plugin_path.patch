@@ -1,7 +1,7 @@
-From 4f9e7af756c2532e8e3470cedce025bacbc66a47 Mon Sep 17 00:00:00 2001
+From 04d48f0dacaade5032faa5cddfb3880f285938d5 Mon Sep 17 00:00:00 2001
 From: David Li <li.davidm96@gmail.com>
-Date: Fri, 20 Oct 2023 08:33:30 -0400
-Subject: [PATCH] cross_compile_grpc_cpp_plugin_path
+Date: Mon, 22 Jul 2024 00:46:15 -0400
+Subject: [PATCH 1/4] cross_compile_grpc_cpp_plugin_path
 
 ---
  CMakeLists.txt                  |  8 ++++----
@@ -9,10 +9,10 @@ Subject: [PATCH] cross_compile_grpc_cpp_plugin_path
  2 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 4af81bf0..cde133ad 100644
+index 711ac14c..04963de6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -427,7 +427,10 @@ if(WITH_OTLP_GRPC OR WITH_OTLP_HTTP)
+@@ -429,7 +429,10 @@ if(WITH_OTLP_GRPC
      endif()
    endif()
    # Latest Protobuf imported targets and without legacy module support
@@ -24,7 +24,7 @@ index 4af81bf0..cde133ad 100644
      project_build_tools_get_imported_location(PROTOBUF_PROTOC_EXECUTABLE
                                                protobuf::protoc)
      # If protobuf::protoc is not a imported target, then we use the target
-@@ -435,9 +438,6 @@ if(WITH_OTLP_GRPC OR WITH_OTLP_HTTP)
+@@ -437,9 +440,6 @@ if(WITH_OTLP_GRPC
      if(NOT PROTOBUF_PROTOC_EXECUTABLE)
        set(PROTOBUF_PROTOC_EXECUTABLE protobuf::protoc)
      endif()
@@ -35,10 +35,10 @@ index 4af81bf0..cde133ad 100644
    include(CMakeDependentOption)
  
 diff --git a/cmake/opentelemetry-proto.cmake b/cmake/opentelemetry-proto.cmake
-index 22082356..c3260437 100644
+index 62197068..41f1a6aa 100644
 --- a/cmake/opentelemetry-proto.cmake
 +++ b/cmake/opentelemetry-proto.cmake
-@@ -154,16 +154,13 @@ foreach(IMPORT_DIR ${PROTOBUF_IMPORT_DIRS})
+@@ -207,16 +207,13 @@ foreach(IMPORT_DIR ${PROTOBUF_IMPORT_DIRS})
  endforeach()
  
  if(WITH_OTLP_GRPC)
