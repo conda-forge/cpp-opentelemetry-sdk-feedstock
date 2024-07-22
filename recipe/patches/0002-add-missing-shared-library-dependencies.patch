@@ -1,9 +1,8 @@
-From 8de02ca1312fd2a5965fc2c10c9b91df5a33a88d Mon Sep 17 00:00:00 2001
+From 05a689e38a375ed8c4c38affde44d6d805a6d9b8 Mon Sep 17 00:00:00 2001
 From: Will Jones <willjones127@gmail.com>
-Date: Tue, 22 Aug 2023 15:53:07 -0400
-Subject: [PATCH 2/3] add missing shared library dependencies
+Date: Mon, 22 Jul 2024 00:46:45 -0400
+Subject: [PATCH 2/4] add missing shared library dependencies
 
-Co-Authored-By: H. Vetinari <h.vetinari@gmx.com>
 ---
  exporters/ostream/CMakeLists.txt        |  2 +-
  exporters/otlp/CMakeLists.txt           | 11 +++++++----
@@ -24,10 +23,10 @@ index e08d6592..d743e458 100644
  if(OPENTELEMETRY_INSTALL)
    install(
 diff --git a/exporters/otlp/CMakeLists.txt b/exporters/otlp/CMakeLists.txt
-index 8a93d34a..97a21b96 100644
+index 83b35f16..bb170b57 100644
 --- a/exporters/otlp/CMakeLists.txt
 +++ b/exporters/otlp/CMakeLists.txt
-@@ -66,7 +66,8 @@ if(WITH_OTLP_GRPC)
+@@ -68,7 +68,8 @@ if(WITH_OTLP_GRPC)
    target_link_libraries(
      opentelemetry_exporter_otlp_grpc
      PUBLIC opentelemetry_otlp_recordable
@@ -37,7 +36,7 @@ index 8a93d34a..97a21b96 100644
  
    list(APPEND OPENTELEMETRY_OTLP_TARGETS opentelemetry_exporter_otlp_grpc)
  
-@@ -82,7 +83,8 @@ if(WITH_OTLP_GRPC)
+@@ -85,7 +86,8 @@ if(WITH_OTLP_GRPC)
    target_link_libraries(
      opentelemetry_exporter_otlp_grpc_log
      PUBLIC opentelemetry_otlp_recordable
@@ -47,7 +46,7 @@ index 8a93d34a..97a21b96 100644
  
    list(APPEND OPENTELEMETRY_OTLP_TARGETS opentelemetry_exporter_otlp_grpc_log)
  
-@@ -97,7 +99,8 @@ if(WITH_OTLP_GRPC)
+@@ -101,7 +103,8 @@ if(WITH_OTLP_GRPC)
    target_link_libraries(
      opentelemetry_exporter_otlp_grpc_metrics
      PUBLIC opentelemetry_otlp_recordable
@@ -57,7 +56,7 @@ index 8a93d34a..97a21b96 100644
  
    list(APPEND OPENTELEMETRY_OTLP_TARGETS
         opentelemetry_exporter_otlp_grpc_metrics)
-@@ -111,7 +114,7 @@ if(WITH_OTLP_HTTP)
+@@ -116,7 +119,7 @@ if(WITH_OTLP_HTTP)
  
    target_link_libraries(
      opentelemetry_exporter_otlp_http_client
@@ -67,7 +66,7 @@ index 8a93d34a..97a21b96 100644
              nlohmann_json::nlohmann_json)
    if(TARGET absl::strings)
 diff --git a/ext/src/http/client/curl/CMakeLists.txt b/ext/src/http/client/curl/CMakeLists.txt
-index 7e2507bd..1236808f 100644
+index 6a69c7de..42ea9550 100644
 --- a/ext/src/http/client/curl/CMakeLists.txt
 +++ b/ext/src/http/client/curl/CMakeLists.txt
 @@ -14,14 +14,14 @@ if(TARGET CURL::libcurl)
@@ -86,7 +85,4 @@ index 7e2507bd..1236808f 100644
 +    PRIVATE ${CURL_LIBRARIES} opentelemetry_common)
  endif()
  
- if(OPENTELEMETRY_INSTALL)
--- 
-2.25.1
-
+ if(WITH_OTLP_HTTP_COMPRESSION)
