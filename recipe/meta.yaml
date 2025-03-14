@@ -22,7 +22,6 @@ source:
   - url: https://github.com/open-telemetry/opentelemetry-cpp/archive/refs/tags/v{{ version }}.tar.gz
     sha256: e0330194b72f2fe4c0ce3ece06b02dc4aa0ab491eb75bf42c6f5e283912e468c
     patches:
-      - patches/0001-cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
       - patches/0002-add-missing-shared-library-dependencies.patch
       - patches/0003-add-necessary-abseil-linkage.patch
       - patches/0004-Define-NOMINMAX-for-Windows.patch  # [win]
@@ -36,7 +35,7 @@ requirements:
     - {{ stdlib("c") }}
     - cmake >=3.1
     - ninja
-    - proto-opentelemetry-proto =1.4.0
+    - proto-opentelemetry-proto =1.5.0
 
     # For cross-compiling
     - curl                    # [build_platform != target_platform]
