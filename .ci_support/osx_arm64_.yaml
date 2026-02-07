@@ -13,15 +13,15 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '18'
+- '19'
 libabseil:
-- '20250512'
+- '20260107'
 libcurl:
 - '8'
 libgrpc:
-- '1.73'
+- '1.78'
 libprotobuf:
-- 6.31.1
+- 6.33.5
 macos_machine:
 - arm64-apple-darwin20.0.0
 target_platform:

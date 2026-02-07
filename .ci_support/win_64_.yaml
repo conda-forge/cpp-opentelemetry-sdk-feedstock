@@ -7,13 +7,13 @@ channel_targets:
 cxx_compiler:
 - vs2022
 libabseil:
-- '20250512'
+- '20260107'
 libcurl:
 - '8'
 libgrpc:
-- '1.73'
+- '1.78'
 libprotobuf:
-- 6.31.1
+- 6.33.5
 target_platform:
 - win-64
 zlib:
