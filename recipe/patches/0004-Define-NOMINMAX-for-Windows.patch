@@ -1,4 +1,4 @@
-From 1ee177376903f4f49f2faf458ae9a386369cd74a Mon Sep 17 00:00:00 2001
+From 6dc8cb4a22beb20c48e62b79e8574cc47ffeed81 Mon Sep 17 00:00:00 2001
 From: David Li <li.davidm96@gmail.com>
 Date: Mon, 22 Jul 2024 00:48:22 -0400
 Subject: [PATCH 4/4] Define NOMINMAX for Windows
@@ -14,21 +14,21 @@ Subject: [PATCH 4/4] Define NOMINMAX for Windows
  7 files changed, 21 insertions(+)
 
 diff --git a/exporters/otlp/src/otlp_grpc_exporter.cc b/exporters/otlp/src/otlp_grpc_exporter.cc
-index 20cc672..004e3f8 100644
+index cd61dfae..b7d64ad9 100644
 --- a/exporters/otlp/src/otlp_grpc_exporter.cc
 +++ b/exporters/otlp/src/otlp_grpc_exporter.cc
-@@ -4,6 +4,9 @@
- #include <memory>
- #include <mutex>
+@@ -11,6 +11,9 @@
+ #include <string>
+ #include <utility>
  
 +// gRPC forgets to do this on Windows and headers use std::min/max
 +#define NOMINMAX
 +
- #include "opentelemetry/common/macros.h"
+ #include "opentelemetry/exporters/otlp/otlp_grpc_client.h"
+ #include "opentelemetry/exporters/otlp/otlp_grpc_client_factory.h"
  #include "opentelemetry/exporters/otlp/otlp_grpc_exporter.h"
- 
 diff --git a/exporters/otlp/src/otlp_grpc_exporter_factory.cc b/exporters/otlp/src/otlp_grpc_exporter_factory.cc
-index 5ed832a..1a3b36f 100644
+index 41a06b79..d5e10775 100644
 --- a/exporters/otlp/src/otlp_grpc_exporter_factory.cc
 +++ b/exporters/otlp/src/otlp_grpc_exporter_factory.cc
 @@ -1,6 +1,9 @@
@@ -42,7 +42,7 @@ index 5ed832a..1a3b36f 100644
  // ambiguity with `nostd::variant`. See issue:
  // https://github.com/open-telemetry/opentelemetry-cpp/issues/880
 diff --git a/exporters/otlp/src/otlp_http_client.cc b/exporters/otlp/src/otlp_http_client.cc
-index a70d249..e91a6a3 100644
+index 77f4df3e..7a9b2396 100644
 --- a/exporters/otlp/src/otlp_http_client.cc
 +++ b/exporters/otlp/src/otlp_http_client.cc
 @@ -1,6 +1,9 @@
@@ -52,11 +52,11 @@ index a70d249..e91a6a3 100644
 +// Something includes Windows headers
 +#define NOMINMAX
 +
- #include <algorithm>
  #include <atomic>
  #include <chrono>
+ #include <condition_variable>
 diff --git a/exporters/otlp/src/otlp_http_exporter.cc b/exporters/otlp/src/otlp_http_exporter.cc
-index 2ebb487..0a71191 100644
+index 6eaf1eed..1e97ee07 100644
 --- a/exporters/otlp/src/otlp_http_exporter.cc
 +++ b/exporters/otlp/src/otlp_http_exporter.cc
 @@ -1,6 +1,9 @@
@@ -70,7 +70,7 @@ index 2ebb487..0a71191 100644
  #include <cstddef>
  #include <memory>
 diff --git a/exporters/otlp/src/otlp_http_exporter_factory.cc b/exporters/otlp/src/otlp_http_exporter_factory.cc
-index eca3552..b155824 100644
+index eca35521..b155824c 100644
 --- a/exporters/otlp/src/otlp_http_exporter_factory.cc
 +++ b/exporters/otlp/src/otlp_http_exporter_factory.cc
 @@ -1,6 +1,9 @@
@@ -84,7 +84,7 @@ index eca3552..b155824 100644
  #include "opentelemetry/exporters/otlp/otlp_http_exporter.h"
  #include "opentelemetry/exporters/otlp/otlp_http_exporter_options.h"
 diff --git a/exporters/otlp/src/otlp_http_log_record_exporter.cc b/exporters/otlp/src/otlp_http_log_record_exporter.cc
-index cd9852e..01d346e 100644
+index b787ae3a..d6968b14 100644
 --- a/exporters/otlp/src/otlp_http_log_record_exporter.cc
 +++ b/exporters/otlp/src/otlp_http_log_record_exporter.cc
 @@ -1,6 +1,9 @@
@@ -98,7 +98,7 @@ index cd9852e..01d346e 100644
  #include <cstddef>
  #include <memory>
 diff --git a/exporters/otlp/src/otlp_http_log_record_exporter_factory.cc b/exporters/otlp/src/otlp_http_log_record_exporter_factory.cc
-index 54e78bf..19fa388 100644
+index 54e78bf4..19fa388e 100644
 --- a/exporters/otlp/src/otlp_http_log_record_exporter_factory.cc
 +++ b/exporters/otlp/src/otlp_http_log_record_exporter_factory.cc
 @@ -1,6 +1,9 @@
