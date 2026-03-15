@@ -1,5 +1,4 @@
-# code: language: jinja-yaml
-{% set version = "1.24.0" %}
+{% set version = "1.25.0" %}
 
 {% set libs = [
     "common", "exporter_in_memory", "exporter_ostream_metrics",
@@ -7,12 +6,10 @@
     "exporter_otlp_grpc_log", "exporter_otlp_grpc_metrics", "exporter_otlp_http",
     "exporter_otlp_http_client", "exporter_otlp_http_metric", "exporter_prometheus",
     "exporter_zipkin_trace", "http_client_curl", "metrics", "otlp_recordable",
-    "resources", "trace", "version"
+    "proto", "resources", "trace", "version"
 ] %}
 # not available on windows
-{% set libs = libs + ["exporter_ostream_logs", "exporter_otlp_http_log", "logs", "proto"] %}  # [not win]
-# libopentelemetry_proto is static on windows even for BUILD_SHARED_LIBS=ON
-{% set libs_always_static = ["proto"] if win else [] %}
+{% set libs = libs + ["exporter_ostream_logs", "exporter_otlp_http_log", "logs"] %}  # [not win]
 
 package:
   name: opentelemetry-sdk
@@ -20,7 +17,7 @@ package:
 
 source:
   - url: https://github.com/open-telemetry/opentelemetry-cpp/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 7b8e966affca1daf1906272f4d983631cad85fb6ea60fb6f55dcd1811a730604
+    sha256: a0c944a9de981fe1874b31d1fe44b830fc30ee030efa27ee23fc73012a3a13e9
     patches:
       - patches/0001-cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
       - patches/0002-add-missing-shared-library-dependencies.patch
@@ -73,7 +70,7 @@ outputs:
         - if not exist %LIBRARY_INC%\opentelemetry exit 1        # [win]
 
         # absence of all libraries (static & shared)
-        {% for each_lib in libs + libs_always_static %}
+        {% for each_lib in libs %}
         - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                # [unix]
         - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.so               # [linux]
         - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.dylib            # [osx]
@@ -154,17 +151,6 @@ outputs:
 
         # absence of static libraries
         - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                # [unix]
-        {% endfor %}
-
-        {% for each_lib in libs_always_static %}
-        # static libraries
-        - test -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.a                  # [unix]
-        - if not exist %LIBRARY_LIB%\opentelemetry_{{ each_lib }}.lib exit 1     # [win]
-
-        # absence of shared libraries
-        - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.so               # [linux]
-        - test ! -f $PREFIX/lib/libopentelemetry_{{ each_lib }}.dylib            # [osx]
-        - if exist %LIBRARY_BIN%\opentelemetry_{{ each_lib }}.dll exit 1         # [win]
         {% endfor %}
 
         # cmake

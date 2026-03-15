@@ -1,19 +1,19 @@
-From d326553a029c789c2757d200881650f579d528d6 Mon Sep 17 00:00:00 2001
+From af31fe4688b916603c2c5faae95c4233e96b2362 Mon Sep 17 00:00:00 2001
 From: Will Jones <willjones127@gmail.com>
 Date: Mon, 22 Jul 2024 00:46:45 -0400
 Subject: [PATCH 2/4] add missing shared library dependencies
 
 ---
  exporters/ostream/CMakeLists.txt        |  2 +-
- exporters/otlp/CMakeLists.txt           | 11 +++++++----
+ exporters/otlp/CMakeLists.txt           | 10 +++++++---
  ext/src/http/client/curl/CMakeLists.txt |  4 ++--
- 3 files changed, 10 insertions(+), 7 deletions(-)
+ 3 files changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/exporters/ostream/CMakeLists.txt b/exporters/ostream/CMakeLists.txt
-index 09adf5aa..86091fa5 100644
+index 6ca8b7d..8358d64 100644
 --- a/exporters/ostream/CMakeLists.txt
 +++ b/exporters/ostream/CMakeLists.txt
-@@ -67,7 +67,7 @@ target_include_directories(
+@@ -69,7 +69,7 @@ target_include_directories(
    opentelemetry_exporter_ostream_metrics
    PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>")
  target_link_libraries(opentelemetry_exporter_ostream_metrics
@@ -23,10 +23,10 @@ index 09adf5aa..86091fa5 100644
  list(APPEND OPENTELEMETRY_OSTREAM_TARGETS
       opentelemetry_exporter_ostream_metrics)
 diff --git a/exporters/otlp/CMakeLists.txt b/exporters/otlp/CMakeLists.txt
-index 23a5cd6b..e489fcd1 100644
+index 1d460d6..3095b13 100644
 --- a/exporters/otlp/CMakeLists.txt
 +++ b/exporters/otlp/CMakeLists.txt
-@@ -122,7 +122,8 @@ if(WITH_OTLP_GRPC)
+@@ -138,7 +138,8 @@ if(WITH_OTLP_GRPC)
    target_link_libraries(
      opentelemetry_exporter_otlp_grpc
      PUBLIC opentelemetry_otlp_recordable
@@ -36,7 +36,7 @@ index 23a5cd6b..e489fcd1 100644
  
    list(APPEND OPENTELEMETRY_OTLP_GRPC_TARGETS opentelemetry_exporter_otlp_grpc)
  
-@@ -163,7 +164,8 @@ if(WITH_OTLP_GRPC)
+@@ -179,7 +180,8 @@ if(WITH_OTLP_GRPC)
    target_link_libraries(
      opentelemetry_exporter_otlp_grpc_log
      PUBLIC opentelemetry_otlp_recordable
@@ -46,7 +46,7 @@ index 23a5cd6b..e489fcd1 100644
  
    list(APPEND OPENTELEMETRY_OTLP_GRPC_TARGETS
         opentelemetry_exporter_otlp_grpc_log)
-@@ -206,7 +208,8 @@ if(WITH_OTLP_GRPC)
+@@ -222,7 +224,8 @@ if(WITH_OTLP_GRPC)
    target_link_libraries(
      opentelemetry_exporter_otlp_grpc_metrics
      PUBLIC opentelemetry_otlp_recordable
@@ -56,17 +56,16 @@ index 23a5cd6b..e489fcd1 100644
  
    list(APPEND OPENTELEMETRY_OTLP_GRPC_TARGETS
         opentelemetry_exporter_otlp_grpc_metrics)
-@@ -250,7 +253,7 @@ if(WITH_OTLP_HTTP)
- 
-   target_link_libraries(
+@@ -310,6 +313,7 @@ if(WITH_OTLP_HTTP)
      opentelemetry_exporter_otlp_http_client
--    PUBLIC opentelemetry_sdk opentelemetry_ext
-+    PUBLIC opentelemetry_sdk opentelemetry_ext opentelemetry_common
-     # Links flags of opentelemetry_http_client_curl should be public when
-     # building internal components
-     PRIVATE opentelemetry_proto
+     PUBLIC opentelemetry_sdk
+            opentelemetry_ext
++           opentelemetry_common
+            # Links flags of opentelemetry_http_client_curl should be public when
+            # building internal components
+            "$<BUILD_INTERFACE:opentelemetry_proto>"
 diff --git a/ext/src/http/client/curl/CMakeLists.txt b/ext/src/http/client/curl/CMakeLists.txt
-index d238a1c4..5c837aa2 100644
+index d238a1c..5c837aa 100644
 --- a/ext/src/http/client/curl/CMakeLists.txt
 +++ b/ext/src/http/client/curl/CMakeLists.txt
 @@ -13,7 +13,7 @@ target_link_libraries(opentelemetry_http_client_curl

@@ -1,4 +1,4 @@
-From ee06cf1f89b06bef6f13d83f9099e743ee341706 Mon Sep 17 00:00:00 2001
+From 4ef28773cc248e2ef2933de14ea599b8418c5d96 Mon Sep 17 00:00:00 2001
 From: David Li <li.davidm96@gmail.com>
 Date: Fri, 14 Mar 2025 12:45:59 +0900
 Subject: [PATCH 1/4] cross_compile_grpc_cpp_plugin_path
@@ -8,10 +8,10 @@ Subject: [PATCH 1/4] cross_compile_grpc_cpp_plugin_path
  1 file changed, 9 insertions(+)
 
 diff --git a/cmake/opentelemetry-proto.cmake b/cmake/opentelemetry-proto.cmake
-index 648d21d2..fa63ffe2 100644
+index c77a874..188b793 100644
 --- a/cmake/opentelemetry-proto.cmake
 +++ b/cmake/opentelemetry-proto.cmake
-@@ -228,6 +228,15 @@ set(PROTOBUF_GENERATED_FILES
+@@ -230,6 +230,15 @@ set(PROTOBUF_GENERATED_FILES
  set(PROTOBUF_GENERATE_DEPENDS ${PROTOBUF_PROTOC_EXECUTABLE})
  
  if(WITH_OTLP_GRPC)
