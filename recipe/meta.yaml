@@ -1,4 +1,4 @@
-{% set version = "1.26.0" %}
+{% set version = "1.27.0" %}
 
 {% set libs = [
     "common", "exporter_in_memory", "exporter_ostream_metrics",
@@ -17,7 +17,7 @@ package:
 
 source:
   - url: https://github.com/open-telemetry/opentelemetry-cpp/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 8a878777a18a013e0ee6604629d1b5f29b162354c14489ad1dccd370f14ac372
+    sha256: d09c2e8dd95bbc1d6ee493a89f32a4736879948d0eb59ad58c855022d1f55cc1
     patches:
       - patches/0001-cross_compile_grpc_cpp_plugin_path.patch  # [build_platform != target_platform]
       - patches/0002-add-missing-shared-library-dependencies.patch
