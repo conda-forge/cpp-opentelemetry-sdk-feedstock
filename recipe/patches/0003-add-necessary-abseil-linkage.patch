@@ -1,4 +1,4 @@
-From c072440bce0b7b4e69c5b2be4d805be8bf3ff643 Mon Sep 17 00:00:00 2001
+From deb13be417267b8eaf0bdf2cff1b4a4fafd77290 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Mon, 22 Jul 2024 00:47:14 -0400
 Subject: [PATCH 3/4] add necessary abseil linkage
@@ -8,12 +8,12 @@ Subject: [PATCH 3/4] add necessary abseil linkage
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/exporters/otlp/CMakeLists.txt b/exporters/otlp/CMakeLists.txt
-index 3095b13..2a30c49 100644
+index f32dce7..3b51605 100644
 --- a/exporters/otlp/CMakeLists.txt
 +++ b/exporters/otlp/CMakeLists.txt
-@@ -225,7 +225,7 @@ if(WITH_OTLP_GRPC)
+@@ -263,7 +263,7 @@ if(OTELCPP_WITH_OTLP_GRPC)
      opentelemetry_exporter_otlp_grpc_metrics
-     PUBLIC opentelemetry_otlp_recordable
+     PUBLIC opentelemetry_otlp_common opentelemetry_otlp_recordable
             opentelemetry_exporter_otlp_grpc_client
 -    PRIVATE gRPC::grpc++)
 +    PRIVATE gRPC::grpc++ absl::strings)
