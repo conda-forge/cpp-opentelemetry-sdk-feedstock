@@ -8,7 +8,7 @@ mkdir .\third_party\opentelemetry-proto\.git
 mkdir build-cpp
 cd build-cpp
 
-cmake -GNinja ^
+cmake %CMAKE_ARGS% -GNinja ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DCMAKE_CXX_STANDARD=17 ^
     -DCMAKE_PREFIX_PATH=%CONDA_PREFIX% ^
